@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="brdPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.hibernate.controller.ManageStudentFormController">
+    <top>
+        <Pane prefHeight="86.0" prefWidth="1920.0" style="-fx-background-color: #cad2c5;" BorderPane.alignment="CENTER">
+            <children>
+                <Pane layoutX="1592.0" layoutY="14.0" prefHeight="59.0" prefWidth="235.0" style="-fx-background-color: #E2F0CB;">
+                    <children>
+                        <Label layoutX="45.0" layoutY="10.0" prefHeight="39.0" prefWidth="158.0" text="9:43 AM">
+                            <font>
+                                <Font name="Bell MT Bold" size="31.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Pane layoutX="14.0" layoutY="14.0" prefHeight="59.0" prefWidth="303.0" style="-fx-background-color: #E2F0CB;">
+                    <children>
+                        <Label layoutX="21.0" layoutY="13.0" prefHeight="39.0" prefWidth="243.0" text="Manage Students">
+                            <font>
+                                <Font name="Bell MT Bold" size="31.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+            </children></Pane>
+    </top>
+    <bottom>
+        <Pane prefHeight="70.0" prefWidth="1920.0" style="-fx-background-color: #cad2c5;" BorderPane.alignment="CENTER" />
+    </bottom>
+    <left>
+        <Pane prefHeight="924.0" prefWidth="289.0" style="-fx-background-color: #C7CCEA;" BorderPane.alignment="CENTER">
+            <children>
+                <JFXButton layoutX="32.0" layoutY="113.0" onAction="#btnDashBoardOnAction" prefHeight="52.0" prefWidth="225.0" text="Dashboard">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </JFXButton>
+                <JFXButton layoutX="32.0" layoutY="196.0" onAction="#btnManageStudentOnAction" prefHeight="52.0" prefWidth="225.0" style="-fx-background-color: #d2dae2;" text="Manage Students">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </JFXButton>
+                <JFXButton layoutX="32.0" layoutY="290.0" onAction="#btnManageRoomsOnAction" prefHeight="52.0" prefWidth="225.0" text="Manage Rooms">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </JFXButton>
+                <JFXButton layoutX="32.0" layoutY="396.0" onAction="#btnManageReservations" prefHeight="52.0" prefWidth="225.0" text="Manage Reservations">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </JFXButton>
+            </children></Pane>
+    </left>
+    <right>
+        <Pane prefHeight="924.0" prefWidth="90.0" style="-fx-background-color: #cad2c5;" BorderPane.alignment="CENTER" />
+    </right>
+    <center>
+        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tblStudentData" layoutX="35.0" layoutY="106.0" prefHeight="777.0" prefWidth="1135.0">
+              <columns>
+                <TableColumn fx:id="colStudentId" prefWidth="136.0" text="Student ID" />
+                <TableColumn fx:id="colName" minWidth="0.0" prefWidth="230.0" text="Name" />
+                  <TableColumn fx:id="colAddress" prefWidth="156.0" text="Address" />
+                  <TableColumn fx:id="colContactNo" prefWidth="170.0" text="Contact No" />
+                  <TableColumn fx:id="colDob" prefWidth="154.0" text="DOB" />
+                  <TableColumn fx:id="colGender" prefWidth="144.0" text="Gender" />
+                  <TableColumn fx:id="colDelete" prefWidth="144.0" text="Delete" />
+              </columns>
+            </TableView>
+            <Pane fx:id="searchBar" layoutX="972.0" layoutY="14.0" prefHeight="48.0" prefWidth="542.0">
+               <children>
+                  <TextField fx:id="txtSearch" layoutX="65.0" layoutY="9.0" prefHeight="31.0" prefWidth="449.0" promptText="Search" />
+               </children>
+            </Pane>
+            <Pane layoutX="1186.0" layoutY="106.0" prefHeight="620.0" prefWidth="346.0">
+               <children>
+                  <JFXTextField fx:id="txtStudentID" layoutX="24.0" layoutY="73.0" prefHeight="31.0" prefWidth="269.0" promptText="Student ID" />
+                  <JFXTextField fx:id="txtName" layoutX="24.0" layoutY="152.0" prefHeight="31.0" prefWidth="271.0" promptText="Name" />
+                  <JFXTextField fx:id="txtAddress" layoutX="26.0" layoutY="228.0" prefHeight="31.0" prefWidth="266.0" promptText="Address" />
+                  <JFXTextField fx:id="txtContactNo" layoutX="24.0" layoutY="301.0" prefHeight="31.0" prefWidth="267.0" promptText="Contact No" />
+                  <JFXDatePicker fx:id="dtDob" layoutX="24.0" layoutY="372.0" prefHeight="31.0" prefWidth="279.0" promptText="DoB" />
+                  <JFXTextField fx:id="txtGender" layoutX="25.0" layoutY="442.0" prefHeight="31.0" prefWidth="267.0" promptText="Gender" />
+                  <Label layoutX="24.0" layoutY="27.0" text="Add/ Update Student Details">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <JFXButton layoutX="31.0" layoutY="523.0" onAction="#btnAddOnAction" text="Add" />
+                  <JFXButton layoutX="220.0" layoutY="523.0" onAction="#btnUpdate" text="Update" />
+               </children>
+            </Pane>
+         </children>
+        </Pane>
+    </center>
+</BorderPane>

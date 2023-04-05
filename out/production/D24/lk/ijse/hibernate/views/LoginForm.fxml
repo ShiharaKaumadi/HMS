@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="brdPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.hibernate.controller.LoginFormController">
+   <top>
+      <Pane prefHeight="86.0" prefWidth="1920.0" style="-fx-background-color: #babeb8;" BorderPane.alignment="CENTER" />
+   </top>
+   <bottom>
+      <Pane prefHeight="70.0" prefWidth="1920.0" style="-fx-background-color: #babeb8;" BorderPane.alignment="CENTER" />
+   </bottom>
+   <left>
+      <Pane prefHeight="794.0" prefWidth="107.0" style="-fx-background-color: #babeb8;" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <Pane prefHeight="924.0" prefWidth="90.0" style="-fx-background-color: #babeb8;" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="pnLogin" layoutX="668.0" layoutY="12.0" prefHeight="786.0" prefWidth="605.0" style="-fx-background-color: white; -fx-border-color: navy blue; -fx-border-width: 5px;">
+               <children>
+                  <Text layoutX="134.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hostel Management System" wrappingWidth="335.80419921875">
+                     <font>
+                        <Font name="Californian FB" size="29.0" />
+                     </font>
+                  </Text>
+                  <JFXTextField fx:id="txtUsername" layoutX="77.0" layoutY="178.0" prefHeight="31.0" prefWidth="434.0" promptText="User Name" />
+                  <JFXPasswordField fx:id="pswd" layoutX="75.0" layoutY="282.0" prefHeight="31.0" prefWidth="438.0" promptText="Password" />
+                  <JFXButton layoutX="79.0" layoutY="368.0" onAction="#btnLoginOnAction" prefHeight="39.0" prefWidth="199.0" style="-fx-background-color: blue violet;" text="Login" textFill="#f8f8f8">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></JFXButton>
+                  <Hyperlink layoutX="79.0" layoutY="453.0" onAction="#hyperForgetPasswordOnAction" prefHeight="29.0" prefWidth="200.0" text="Forget Password?" />
+                  <JFXButton layoutX="77.0" layoutY="516.0" onAction="#btnCreateAccountOnAction" prefHeight="39.0" prefWidth="203.0" style="-fx-background-color: green;" text="Create an Account" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></JFXButton>
+                  <Label fx:id="lblUserNameError" layoutX="76.0" layoutY="222.0" prefHeight="21.0" prefWidth="437.0" text=" " textFill="#ee0e0e" />
+                  <Label fx:id="lblPsswordError" layoutX="76.0" layoutY="321.0" prefHeight="21.0" prefWidth="437.0" text=" " textFill="#ee0e0e" />
+               </children>
+            </Pane>
+            <ImageView fitHeight="310.0" fitWidth="450.0" layoutX="1273.0" layoutY="263.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/images/jpg/workingRemote.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="1074.0" fitWidth="656.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/images/jpg/4a1955552ef3ef57a5d7a071a6dc026f.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

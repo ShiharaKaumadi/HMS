@@ -1,2 +1,4 @@
-package lk.ijse.hibernate.dao.util;public class DAOFactory {
+package lk.ijse.hibernate.dao.util;
+
+public class DAOFactory {
 }

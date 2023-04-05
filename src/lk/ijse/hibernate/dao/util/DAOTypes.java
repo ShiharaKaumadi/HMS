@@ -1,2 +1,4 @@
-package lk.ijse.hibernate.dao.util;public enum DAOTypes {
+package lk.ijse.hibernate.dao.util;
+
+public enum DAOTypes {
 }
