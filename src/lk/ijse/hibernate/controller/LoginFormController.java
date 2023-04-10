@@ -28,16 +28,15 @@ public class LoginFormController {
     public void btnLoginOnAction(ActionEvent actionEvent) throws IOException {
         String username =txtUsername.getText();
         String password = pswd.getText();
-        User login = userDAOImpl.loginUserName(username);
-        User loginPassword = userDAOImpl.loginPassword(password);
-        if (username.matches("^I1\\d{3}$")){
+
+        if (username.matches("^Nimal$")){
         }else{
             lblUserNameError.setText("Invalid Username");
             txtUsername.setFocusColor(Paint.valueOf("Red"));
             txtUsername.requestFocus();
         }
 
-            if (password.matches("^EM1\\d{3}@l$")){
+            if (password.matches("^\\d{4}$")){
                 Navigation.navigate(Routes.DASHBOARD,brdPane);
             }else{
                 lblUserNameError.setText("");
@@ -54,6 +53,7 @@ public class LoginFormController {
 
     }
 
-    public void btnCreateAccountOnAction(ActionEvent actionEvent) {
+    public void btnCreateAccountOnAction(ActionEvent actionEvent) throws IOException {
+        Navigation.navigate(Routes.USER,brdPane);
     }
 }

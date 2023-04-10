@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="brdPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.hibernate.controller.SettingsFormController">
+    <top>
+        <Pane prefHeight="86.0" prefWidth="1920.0" style="-fx-background-color: #cad2c5;" BorderPane.alignment="CENTER">
+            <children>
+                <Pane layoutX="1592.0" layoutY="14.0" prefHeight="59.0" prefWidth="235.0" style="-fx-background-color: #E2F0CB;">
+                    <children>
+                        <Label layoutX="45.0" layoutY="10.0" prefHeight="39.0" prefWidth="158.0" text="9:43 AM">
+                            <font>
+                                <Font name="Bell MT Bold" size="31.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Pane layoutX="14.0" layoutY="14.0" prefHeight="59.0" prefWidth="270.0" style="-fx-background-color: #E2F0CB;">
+                    <children>
+                        <Label layoutX="21.0" layoutY="13.0" prefHeight="27.0" prefWidth="234.0" text="Settings">
+                            <font>
+                                <Font name="Bell MT Bold" size="31.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+            </children></Pane>
+    </top>
+    <bottom>
+        <Pane prefHeight="70.0" prefWidth="1920.0" style="-fx-background-color: #cad2c5;" BorderPane.alignment="CENTER" />
+    </bottom>
+    <left>
+        <Pane prefHeight="924.0" prefWidth="289.0" style="-fx-background-color: #C7CCEA;" BorderPane.alignment="CENTER">
+            <children>
+                <JFXButton layoutX="32.0" layoutY="113.0" onAction="#btnDashboardOnAction" prefHeight="52.0" prefWidth="225.0" text="Dashboard">
+
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </JFXButton>
+                <JFXButton layoutX="32.0" layoutY="196.0" onAction="#btnManageStudentsOnAction" prefHeight="52.0" prefWidth="225.0" text="Manage Students">
+
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </JFXButton>
+                <JFXButton layoutX="32.0" layoutY="290.0" onAction="#btnManageRoomsOnAction" prefHeight="52.0" prefWidth="225.0" text="Manage Rooms">
+
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </JFXButton>
+                <JFXButton layoutX="32.0" layoutY="377.0" onAction="#btnReservationsOnAction" prefHeight="52.0" prefWidth="225.0" text="Manage Reservations">
+
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </JFXButton>
+                <JFXButton layoutX="33.0" layoutY="462.0" onAction="#btnSettingsOnAction" prefHeight="49.0" prefWidth="222.0" style="-fx-background-color: #d2dae2;" text="Settings" />
+            </children></Pane>
+    </left>
+    <right>
+        <Pane prefHeight="924.0" prefWidth="90.0" style="-fx-background-color: #cad2c5;" BorderPane.alignment="CENTER" />
+    </right>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane layoutX="72.0" layoutY="62.0" prefHeight="788.0" prefWidth="1392.0">
+               <children>
+                  <JFXTextField fx:id="txtPreviosUsername" layoutX="412.0" layoutY="106.0" promptText="previous username" />
+                  <JFXPasswordField fx:id="pswdNew" layoutX="412.0" layoutY="211.0" promptText="new password" />
+                  <JFXPasswordField fx:id="pswdConfirm" layoutX="671.0" layoutY="211.0" promptText="confirm password" />
+                  <JFXTextField fx:id="txtNewUsername" layoutX="664.0" layoutY="106.0" promptText="new username" />
+                  <JFXButton layoutX="494.0" layoutY="323.0" onAction="#btnChangeOnAction" prefHeight="34.0" prefWidth="207.0" text="Change">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Label layoutX="37.0" layoutY="26.0" text="Reset">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutY="426.0" prefHeight="40.0" prefWidth="1386.0" />
+                  <Label layoutX="37.0" layoutY="473.0" prefHeight="32.0" prefWidth="192.0" text="Forget Password" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

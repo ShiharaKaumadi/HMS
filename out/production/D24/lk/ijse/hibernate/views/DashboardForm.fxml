@@ -57,12 +57,13 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton layoutX="32.0" layoutY="396.0" onAction="#btnReservationsOnAction" prefHeight="52.0" prefWidth="225.0" text="Manage Reservations">
+            <JFXButton layoutX="32.0" layoutY="377.0" onAction="#btnReservationsOnAction" prefHeight="52.0" prefWidth="225.0" text="Manage Reservations">
 
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
+            <JFXButton layoutX="33.0" layoutY="462.0" onAction="#btnSettingsOnAction" prefHeight="49.0" prefWidth="222.0" text="Settings" />
          </children></Pane>
     </left>
     <right>

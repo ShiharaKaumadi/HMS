@@ -38,4 +38,8 @@ public class DashboardFormController {
     public void btnReservationsOnAction(ActionEvent actionEvent) throws IOException {
         Navigation.navigate(Routes.RESERVATION,brdPane);
     }
+
+    public void btnSettingsOnAction(ActionEvent actionEvent) throws IOException {
+        Navigation.navigate(Routes.SETTINGS,brdPane);
+    }
 }

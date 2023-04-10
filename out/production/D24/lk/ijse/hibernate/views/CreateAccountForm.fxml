@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane fx:id="brdPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.hibernate.controller.CreateAccountFormController">
+   <top>
+      <Pane prefHeight="68.0" prefWidth="1920.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER" />
+   </top>
+   <left>
+      <Pane prefHeight="818.0" prefWidth="67.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <Pane prefHeight="56.0" prefWidth="1920.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane layoutY="1.0" prefHeight="955.0" prefWidth="1020.0" style="-fx-background-color: blue;" />
+            <Text layoutX="1066.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CREATE ACCOUNT">
+               <font>
+                  <Font name="Arial Narrow" size="24.0" />
+               </font>
+            </Text>
+            <JFXTextField fx:id="textUserID" layoutX="1066.0" layoutY="130.0" prefHeight="31.0" prefWidth="472.0" promptText="User ID" />
+            <JFXTextField fx:id="txtUsername" layoutX="1066.0" layoutY="245.0" prefHeight="31.0" prefWidth="474.0" promptText="User Name" />
+            <JFXPasswordField fx:id="pswd" layoutX="1066.0" layoutY="376.0" prefHeight="31.0" prefWidth="477.0" promptText="Password" />
+            <JFXButton layoutX="1066.0" layoutY="478.0" onAction="#btnCreateAccountOnAction" prefHeight="31.0" prefWidth="289.0" text="Create Account" />
+         </children>
+      </Pane>
+   </center>
+   <right>
+      <Pane prefHeight="962.0" prefWidth="83.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

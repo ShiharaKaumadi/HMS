@@ -33,6 +33,14 @@ public class Navigation {
                 window.setTitle("Manage Reservations");
                 initUI("ReservationForm.fxml");
                 break;
+            case SETTINGS:
+                window.setTitle("Settings");
+                initUI("SettingsForm.fxml");
+                break;
+            case USER:
+                window.setTitle("Create Account");
+                initUI("CreateAccountForm.fxml");
+                break;
 
 
 

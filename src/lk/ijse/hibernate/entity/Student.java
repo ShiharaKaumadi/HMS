@@ -26,6 +26,14 @@ public class Student {
         this.gender = gender;
     }
 
+    public Student(String name, String adddress, String contactNo, LocalDate dob, String gender) {
+        this.name = name;
+        this.adddress = adddress;
+        this.contactNo = contactNo;
+        this.dob = dob;
+        this.gender = gender;
+    }
+
     public String getId() {
         return id;
     }

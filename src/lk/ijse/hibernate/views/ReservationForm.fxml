@@ -96,9 +96,10 @@
                             </font>
                         </Label>
                   <JFXDatePicker fx:id="dtDate" layoutX="27.0" layoutY="154.0" prefHeight="31.0" prefWidth="388.0" promptText="Date" />
-                  <JFXButton fx:id="btnReserved" layoutX="139.0" layoutY="399.0" onAction="#btnResrvedOnAction" prefHeight="31.0" prefWidth="154.0" text="Reserved" />
-                  <JFXButton layoutX="141.0" layoutY="464.0" onAction="#btnCancelOnAction" prefHeight="31.0" prefWidth="154.0" text="Cancel" />
-                  <Separator layoutX="35.0" layoutY="442.0" prefHeight="8.0" prefWidth="389.0" />
+                  <JFXButton fx:id="btnReserved" layoutX="151.0" layoutY="484.0" onAction="#btnResrvedOnAction" prefHeight="31.0" prefWidth="154.0" text="Reserved" />
+                  <JFXButton layoutX="153.0" layoutY="549.0" onAction="#btnCancelOnAction" prefHeight="31.0" prefWidth="154.0" text="Cancel" />
+                  <Separator layoutX="47.0" layoutY="527.0" prefHeight="8.0" prefWidth="389.0" />
+                  <JFXTextField fx:id="txtStatus" layoutX="25.0" layoutY="396.0" prefHeight="31.0" prefWidth="391.0" promptText="status" />
                     </children>
                 </Pane>
             </children>
