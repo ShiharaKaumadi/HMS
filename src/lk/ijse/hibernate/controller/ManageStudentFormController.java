@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class ManageStudentFormController {
@@ -50,10 +51,11 @@ public class ManageStudentFormController {
     public void initialize() {
         setCellValueFactory();
         loadItemTableData();
+
     }
 
     private void loadItemTableData() {
-        ArrayList<StudentDTO> studentDTOS = null;
+        List<StudentDTO> studentDTOS = null;
 
 
         try {
@@ -62,6 +64,7 @@ public class ManageStudentFormController {
 
                 StudentDTO studentDTO1 = new StudentDTO(studentDTO.getStudentId(), studentDTO.getName(), studentDTO.getAddress(), studentDTO.getContactNo(), studentDTO.getDob(), studentDTO.getGender());
                 obList.add(studentDTO1);
+                System.out.println(studentDTO1);
 
                 tblStudentData.setItems(obList);
 
@@ -206,7 +209,7 @@ public class ManageStudentFormController {
 
     }
 
-    public void btnUpdateOnAction(ActionEvent actionEvent) {
+    public void btnUpdateOnAction(ActionEvent actionEvent) throws IOException {
         String studentID = txtStudentID.getText();
         String name = txtName.getText();
         String address = txtAddress.getText();
@@ -227,8 +230,8 @@ public class ManageStudentFormController {
                     if (isContactMatched) {
                         if (isGenderMatched) {
                             try {
-                                boolean isUpdated = studentBoImpl.updateStudentDetails(studentDTO);
-                                System.out.println(isUpdated);
+                                studentBoImpl.updateStudentDetails(studentDTO);
+                                System.out.println(" I am in controller");
                                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                                 alert.setTitle("Update Student");
                                 alert.setContentText("Are you sure you want to update student " + txtStudentID.getText() + " ?");
@@ -236,18 +239,16 @@ public class ManageStudentFormController {
                                 if (result.equals(null)) {
                                     Navigation.navigate(Routes.STUDENT, brdPane);
                                 } else if (result.get() == ButtonType.OK) {
-                                    if (isUpdated) {
+                                        studentDTOS.add(studentDTO);
+                                        tblStudentData.setItems(studentDTOS);
                                         Notifications notifications = Notifications.create().text("Student Updated Successfuly").title("Update Student").position(Pos.CENTER).hideAfter(Duration.seconds(3));
                                         notifications.showInformation();
                                     } else {
-                                        Notifications notifications = Notifications.create().text("Student Not Updated.").title("Saving Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
-                                        notifications.showInformation();
-
-                                    }
-                                } else if (result.get() == ButtonType.CANCEL) {
+                                    Notifications notifications = Notifications.create().text("Student Not Updated.").title("Saving Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                                    notifications.showInformation();
+                                } {
                                     Navigation.navigate(Routes.STUDENT, brdPane);
                                 }
-
 
                             } catch (Exception e) {
                                 throw new RuntimeException(e);

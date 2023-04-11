@@ -4,4 +4,9 @@ import lk.ijse.hibernate.dao.util.CrudDAO;
 import lk.ijse.hibernate.entity.Student;
 
 public interface StudentDAO extends CrudDAO<Student,String> {
+    long collectTotalStudents();
+
+    long collectTotalFemaleStudents();
+
+    long collectTotalMaleStudents();
 }

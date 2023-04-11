@@ -1,10 +1,12 @@
 package lk.ijse.hibernate.controller;
 
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -22,6 +24,7 @@ import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 public class ManageRoomsFormController {
@@ -39,8 +42,57 @@ public class ManageRoomsFormController {
     public JFXTextField txtType;
     public JFXTextField txtKeyMoney;
     public JFXTextField txtQty;
+    private final ObservableList<RoomDTO> obList = FXCollections.observableArrayList();
 
     RoomBo roomBoImpl = (RoomBo) BOFactory.getBoFactory().getBO(BOTypes.ROOM);
+
+    public void initialize(){
+        loadTableData();
+        loadSetCellValueFactory();
+        laodAvaialableAcRooms();
+        loadAvaiableACFoodRooms();
+        loadAvailableNonACRooms();
+        loadAvaialableNonACFoodRooms();
+    }
+
+    private void loadSetCellValueFactory() {
+        colRoomTypeId.setCellValueFactory(new PropertyValueFactory<>("roomTypeId"));
+        colType.setCellValueFactory(new PropertyValueFactory<>("roomType"));
+        colKeyMoney.setCellValueFactory(new PropertyValueFactory<>("keyMoney"));
+        colQtyAvailable.setCellValueFactory(new PropertyValueFactory<>("qty"));
+
+    }
+
+    private void loadTableData() {
+        List<RoomDTO> roomDTOS = null;
+        try {
+            roomDTOS = roomBoImpl.getAllRooms();
+            for (RoomDTO roomDTO : roomDTOS) {
+
+                RoomDTO roomDTO1 = new RoomDTO(roomDTO.getRoomTypeId(),roomDTO.getRoomType(),roomDTO.getKeyMoney(),roomDTO.getQty());
+                obList.add(roomDTO1);
+                System.out.println(roomDTO1);
+                tblRoomData.setItems(obList);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loadAvaialableNonACFoodRooms() {
+        roomBoImpl.getAllAvailableACRooms();
+    }
+
+    private void loadAvailableNonACRooms() {
+    }
+
+    private void loadAvaiableACFoodRooms() {
+    }
+
+    private void laodAvaialableAcRooms() {
+    }
 
 
     public void btnDashBoardOnAction(ActionEvent actionEvent) throws IOException {
@@ -97,8 +149,6 @@ public class ManageRoomsFormController {
                                         notifications.showInformation();
 
                                     }
-                                } else if (result.get() == ButtonType.CANCEL) {
-                                    Navigation.navigate(Routes.USER, brdPane);
                                 }
 
 
@@ -125,6 +175,66 @@ public class ManageRoomsFormController {
     }
 
     public void btnUpdate(ActionEvent actionEvent) {
+        String roomTypeId = txtRoomTypeId.getText();
+        String type = txtType.getText();
+        String keyMoney = txtKeyMoney.getText();
+        int qty = Integer.parseInt(txtQty.getText());
+
+        boolean isRoomTypeMatched =roomTypeId.matches("^RM-\\d{4}$");
+        boolean isTypeMatched = type.matches("^NON-AC|non_ac|NON_AC/Food|non-ac/food|AC|AC/Food|ac|ac/food$");
+        boolean isKeyMoneyMatched = keyMoney.matches("^\\d{4}|\\d{5}$");
+        boolean isQtyMatched = String.valueOf(qty).matches("^\\d{2}$");
+
+        RoomDTO roomDto = new RoomDTO(roomTypeId, type, keyMoney, qty);
+        ObservableList items = tblRoomData.getItems();
+
+        if (isRoomTypeMatched) {
+            if (isTypeMatched) {
+                if (isKeyMoneyMatched) {
+                    if (isQtyMatched) {
+                        try{
+                            boolean isAdded = roomBoImpl.updateRoom(roomDto);
+                            System.out.println(isAdded);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Add ROOM");
+                            alert.setContentText("Are you sure you want to add Room ?");
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.equals(null)) {
+                                Navigation.navigate(Routes.ROOMS,brdPane);
+                            } else if (result.get() == ButtonType.OK) {
+                                if (isAdded) {
+                                    items.add(roomDto);
+                                    tblRoomData.setItems(items);
+                                    Notifications notifications = Notifications.create().text("Student Added Successfuly").title("Add Student").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                                    notifications.showInformation();
+                                } else {
+                                    Notifications notifications = Notifications.create().text("Student Not Added.").title("Saving Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                                    notifications.showInformation();
+
+                                }
+                            }
+
+
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        txtQty.setFocusColor(Paint.valueOf("Red"));
+                        txtQty.requestFocus();
+                    }
+                } else {
+                    txtKeyMoney.setFocusColor(Paint.valueOf("Red"));
+                    txtKeyMoney.requestFocus();
+                }
+            } else {
+                txtType.setFocusColor(Paint.valueOf("Red"));
+                txtType.requestFocus();
+            }
+        }else{
+            txtRoomTypeId.setFocusColor(Paint.valueOf("Red"));
+            txtRoomTypeId.requestFocus();
+        }
+
     }
 
     public void txtSearchOnAction(ActionEvent actionEvent) {
@@ -158,5 +268,8 @@ public class ManageRoomsFormController {
 
 
 
+    }
+
+    public void btnDeleteOnAction(ActionEvent actionEvent) {
     }
 }

@@ -1,10 +1,9 @@
 package lk.ijse.hibernate.bo.custom;
 
 import lk.ijse.hibernate.dto.StudentDTO;
-import lk.ijse.hibernate.views.tm.StudentTM;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface StudentBo extends SuperBo{
     StudentDTO searchStudent(String id) throws SQLException, ClassNotFoundException;
@@ -17,5 +16,11 @@ public interface StudentBo extends SuperBo{
 
     boolean deleteStudent(String id) throws SQLException, ClassNotFoundException;
 
-    ArrayList<StudentDTO> getAllItems()  throws SQLException, ClassNotFoundException;
+    List<StudentDTO> getAllItems()  throws SQLException, ClassNotFoundException;
+
+    long countAllStudent() throws SQLException, ClassNotFoundException ;
+
+    long countFemaleStudent() throws SQLException, ClassNotFoundException ;
+
+    long countMaleStudent()throws SQLException, ClassNotFoundException ;
 }

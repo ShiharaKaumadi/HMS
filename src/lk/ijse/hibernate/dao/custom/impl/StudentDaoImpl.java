@@ -2,25 +2,21 @@ package lk.ijse.hibernate.dao.custom.impl;
 
 import lk.ijse.hibernate.dao.custom.StudentDAO;
 import lk.ijse.hibernate.entity.Student;
-import lk.ijse.hibernate.entity.User;
 import lk.ijse.hibernate.util.FactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class StudentDaoImpl implements StudentDAO {
-    Session session = FactoryConfiguration.getInstance().getSession();
+
     @Override
     public boolean add(Student student) throws SQLException, ClassNotFoundException {
-
+        Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        //transaction.begin();
         try{
             session.saveOrUpdate(student);
             System.out.println(student.getName());
@@ -35,12 +31,13 @@ public class StudentDaoImpl implements StudentDAO {
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-
+        Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         //transaction.begin();
 
         try{
             session.delete(id,Student.class);
+            System.out.println(id);
             transaction.commit();
             System.out.println("commited");
             return true;
@@ -54,14 +51,13 @@ public class StudentDaoImpl implements StudentDAO {
 
     @Override
     public boolean update(Student student) throws SQLException, ClassNotFoundException {
-
+        Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         //transaction.begin();
         try{
             session.saveOrUpdate(student);
-            
             transaction.commit();
-            session.close();
+            System.out.println(student);
             return true;
         }catch (Exception e){
             System.out.println(e);;
@@ -72,6 +68,7 @@ public class StudentDaoImpl implements StudentDAO {
 
     @Override
     public Student search(String id) throws SQLException, ClassNotFoundException {
+        Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
 
         try{
@@ -91,17 +88,69 @@ public class StudentDaoImpl implements StudentDAO {
     public ArrayList<Student> getAll() throws SQLException, ClassNotFoundException {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
+        List<Student> students = new ArrayList<>();
 
+        try{
+        Query query = session.createQuery("FROM Student");
+        List <Student> list= query.list();
+            System.out.println(list);
 
-        ArrayList<Student> students = new ArrayList<>();
-        NativeQuery sqlQuery = session.createSQLQuery("SELECT * FROM Student");
-        sqlQuery.addEntity(Student.class);
-        List<Student> customerList = sqlQuery.list();
-        String code;
-        for (Student student:customerList){
-            students.add(student);
+        transaction.commit();
 
+        return (ArrayList<Student>) list;
+    }catch (Exception e){
+        System.out.println(e);
+        transaction.rollback();
+        return null;
+    }
+    }
+
+    @Override
+    public long collectTotalStudents() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            Long singleResult = (Long) session.createQuery("select COUNT(*) FROM Student ").getSingleResult();
+            System.out.println(singleResult);
+            transaction.commit();
+            return singleResult;
+        }catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+            return 0;
         }
-        return students;
+
+    }
+
+    @Override
+    public long collectTotalFemaleStudents() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            Long singleResult = (Long) session.createQuery("select COUNT(*) FROM Student WHERE gender Like 'F%'").getSingleResult();
+            System.out.println(singleResult);
+            transaction.commit();
+            return singleResult;
+        }catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+            return 0;
+        }
+    }
+
+    @Override
+    public long collectTotalMaleStudents() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            Long singleResult = (Long) session.createQuery("select COUNT(*) FROM Student WHERE gender Like 'M%' ").getSingleResult();
+            System.out.println(singleResult);
+            transaction.commit();
+            return singleResult;
+        }catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+            return 0;
+        }
     }
 }
