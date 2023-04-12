@@ -1,8 +1,10 @@
 package lk.ijse.hibernate.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -23,7 +25,9 @@ import lk.ijse.hibernate.util.Routes;
 import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,13 +43,64 @@ public class ReservationFormController {
     public Pane searchBar;
     public TextField txtSearch;
     public JFXTextField txtResID;
-    public JFXTextField txtStudentID;
-    public JFXTextField txtRoomTypeID;
+    
     public JFXDatePicker dtDate;
     public JFXButton btnReserved;
-    public JFXTextField txtStatus;
+    
+    public JFXComboBox cmbStudentID;
+    public JFXComboBox cmbRoomTypeID;
+    public JFXComboBox cmbStatus;
 
     ReservationBo reservationBoImpl = (ReservationBo) BOFactory.getBoFactory().getBO(BOTypes.RESERVATION);
+
+    public void initialize(){
+        loadRegisteredStudents();
+        loadRoomTypeIDsAvailable();
+        loadTableData();
+        loadSetCellValueFactory();
+
+        ObservableList<String> status = FXCollections.observableArrayList("Paid","Pending");
+        cmbStatus.setItems(status);
+        
+    }
+
+    private void loadSetCellValueFactory() {
+    }
+
+    private void loadTableData() {
+    }
+
+    private void loadRoomTypeIDsAvailable() {
+        try {
+            ObservableList<String> observableList = FXCollections.observableArrayList();
+            ArrayList<String> idList = reservationBoImpl.loadRoomTypeID();
+
+            for (String id : idList) {
+                observableList.add(id);
+            }
+            cmbRoomTypeID.setItems(observableList);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
+
+    private void loadRegisteredStudents() {
+        try {
+            ObservableList<String> observableList = FXCollections.observableArrayList();
+            ArrayList<String> idList = reservationBoImpl.loadAllStudentIDs();
+
+            for (String id : idList) {
+                observableList.add(id);
+            }
+            cmbStudentID.setItems(observableList);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void btnDashBoardOnAction(ActionEvent actionEvent) throws IOException {
         Navigation.navigate(Routes.DASHBOARD,brdPane);
@@ -66,16 +121,16 @@ public class ReservationFormController {
     public void btnResrvedOnAction(ActionEvent actionEvent) {
         String resId = txtResID.getText();
         LocalDate date = dtDate.getValue();
-        String studentID = txtStudentID.getText();
-        String roomTypeID = txtRoomTypeID.getText();
-        String status = txtStatus.getText();
+        String studentID = cmbStudentID.getSelectionModel().getSelectedItem().toString();
+        String roomTypeID = cmbRoomTypeID.getSelectionModel().getSelectedItem().toString();
+        String status = cmbStatus.getSelectionModel().getSelectedItem().toString();
 
         boolean isResIDMatched = resId.matches("^RS-\\d{3}$");
         boolean isStudentIdMatched = studentID.matches("^S\\d{3}$");
         boolean isRoomTypeIDMatched = roomTypeID.matches("^RM-\\d{4}$");
 
 
-        boolean isStatusMatched = status.matches("^Paid|Not Paid$");
+        boolean isStatusMatched = status.matches("^Paid|Pending$");
 
         ReservationDTO resrevationDTO = new ReservationDTO(resId, date, studentID, roomTypeID, status);
         ObservableList<ReservationDTO> reservationDTOS = tblReservationData.getItems();
@@ -84,43 +139,47 @@ public class ReservationFormController {
             if (isStudentIdMatched) {
                 if (isRoomTypeIDMatched) {
 
-                        if (isStatusMatched)
-                        try {
-                            boolean isAdded = reservationBoImpl.addReservation(resrevationDTO);
-                            System.out.println(isAdded);
-                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("Add Reservation");
-                            alert.setContentText("Are you sure you want to add Reservation ?");
-                            Optional<ButtonType> result = alert.showAndWait();
-                            if (result.equals(null)) {
-                                Navigation.navigate(Routes.RESERVATION, brdPane);
-                            } else if (result.get() == ButtonType.OK) {
-                                if (isAdded) {
-                                    reservationDTOS.add(resrevationDTO);
-                                    tblReservationData.setItems(reservationDTOS);
-                                    Notifications notifications = Notifications.create().text("Reservation Added Successfuly").title("Add Reservation").position(Pos.CENTER).hideAfter(Duration.seconds(3));
-                                    notifications.showInformation();
-                                } else {
-                                    Notifications notifications = Notifications.create().text("Reservation Not Added.").title("Saving Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
-                                    notifications.showInformation();
+                        if (isStatusMatched) {
+                            try {
+                                boolean isAdded = reservationBoImpl.addReservation(resrevationDTO);
+                                System.out.println(isAdded);
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                alert.setTitle("Add Reservation");
+                                alert.setContentText("Are you sure you want to add Reservation ?");
+                                Optional<ButtonType> result = alert.showAndWait();
+                                if (result.equals(null)) {
+                                    Navigation.navigate(Routes.RESERVATION, brdPane);
+                                } else if (result.get() == ButtonType.OK) {
+                                    if (isAdded) {
+                                        reservationDTOS.add(resrevationDTO);
+                                        tblReservationData.setItems(reservationDTOS);
+                                        Notifications notifications = Notifications.create().text("Reservation Added Successfuly").title("Add Reservation").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                                        notifications.showInformation();
+                                    } else {
+                                        Notifications notifications = Notifications.create().text("Reservation Not Added.").title("Saving Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                                        notifications.showInformation();
 
+                                    }
+                                } else if (result.get() == ButtonType.CANCEL) {
+                                    Navigation.navigate(Routes.RESERVATION, brdPane);
                                 }
-                            } else if (result.get() == ButtonType.CANCEL) {
-                                Navigation.navigate(Routes.RESERVATION, brdPane);
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        }else{
+                            cmbStatus.setFocusColor(Paint.valueOf("Red"));
+                            cmbStatus.requestFocus();
                         }
 
                 } else {
-                    txtRoomTypeID.setFocusColor(Paint.valueOf("Red"));
-                    txtRoomTypeID.requestFocus();
+                    cmbRoomTypeID.setFocusColor(Paint.valueOf("Red"));
+                    cmbRoomTypeID.requestFocus();
                 }
             } else {
-                txtStudentID.setFocusColor(Paint.valueOf("Red"));
-                txtStudentID.requestFocus();            }
+                cmbStudentID.setFocusColor(Paint.valueOf("Red"));
+                cmbStudentID.requestFocus();            }
         } else {
             txtResID.setFocusColor(Paint.valueOf("Red"));
             txtResID.requestFocus();

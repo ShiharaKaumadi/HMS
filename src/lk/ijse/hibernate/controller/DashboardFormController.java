@@ -3,7 +3,9 @@ package lk.ijse.hibernate.controller;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import lk.ijse.hibernate.bo.custom.BOFactory;
 import lk.ijse.hibernate.bo.custom.BOTypes;
 import lk.ijse.hibernate.bo.custom.StudentBo;
@@ -24,11 +26,14 @@ public class DashboardFormController {
     public Label lblACAvailable;
     public Label lblACFoodAvailable;
     public ScrollPane scrllAvailableKeys;
+    public GridPane gridPane;
+    public AnchorPane anchrPane;
+    public GridPane grid;
+    public AnchorPane anchorPane;
 
     StudentBo studentBOImpl = (StudentBo) BOFactory.getBoFactory().getBO(BOTypes.STUDENT);
 
     public void initialize(){
-
         loadTotalStudentCount();
         loadTotalFemaleStudentCount();
         loadTotalFemaleStudentCount();

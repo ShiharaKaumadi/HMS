@@ -10,4 +10,8 @@ public interface RoomsDAO extends CrudDAO<Room, String> {
     void getAvailableAcRooms();
 
 
+    ArrayList<String> loadRoomTypeIDs();
+
+    ArrayList<String> loadAvailableRooms();
+
 }

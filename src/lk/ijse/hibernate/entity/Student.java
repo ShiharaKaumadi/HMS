@@ -2,7 +2,10 @@ package lk.ijse.hibernate.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Student {
@@ -13,6 +16,8 @@ public class Student {
     private String contactNo;
     private LocalDate dob;
     private String gender;
+    @OneToMany(mappedBy = "student",targetEntity = Reservation.class)
+    private List<Reservation> list = new ArrayList<>();
 
     public Student() {
     }
@@ -24,6 +29,16 @@ public class Student {
         this.contactNo = contactNo;
         this.dob = dob;
         this.gender = gender;
+    }
+
+    public Student(String id, String name, String adddress, String contactNo, LocalDate dob, String gender, List<Reservation> list) {
+        this.id = id;
+        this.name = name;
+        this.adddress = adddress;
+        this.contactNo = contactNo;
+        this.dob = dob;
+        this.gender = gender;
+        this.list = list;
     }
 
     public Student(String name, String adddress, String contactNo, LocalDate dob, String gender) {
@@ -86,12 +101,24 @@ public class Student {
         this.gender = gender;
     }
 
+    public List<Reservation> getList() {
+        return list;
+    }
+
+    public void setList(List<Reservation> list) {
+        this.list = list;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", adddress='" + adddress + '\'' +
+                ", contactNo='" + contactNo + '\'' +
+                ", dob=" + dob +
+                ", gender='" + gender + '\'' +
+                ", list=" + list +
                 '}';
     }
 }

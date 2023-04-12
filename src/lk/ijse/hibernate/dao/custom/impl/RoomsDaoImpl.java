@@ -6,7 +6,6 @@ import lk.ijse.hibernate.util.FactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ public class RoomsDaoImpl implements RoomsDAO {
     public boolean add(Room room) throws SQLException, ClassNotFoundException {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        //transaction.begin();
+
         try{
             session.saveOrUpdate(room);
             transaction.commit();
@@ -98,6 +97,51 @@ public class RoomsDaoImpl implements RoomsDAO {
     public void getAvailableAcRooms() {
 
     }
+
+    @Override
+    public ArrayList<String> loadRoomTypeIDs() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        List<Room> rooms = new ArrayList<>();
+
+        try{
+            Query query = session.createQuery("SELECT roomTypeId FROM Room");
+            List <String> list= query.list();
+            System.out.println(list);
+
+            transaction.commit();
+
+            return (ArrayList<String>) list;
+        }catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+            return null;
+        }
+    }
+
+    @Override
+    public ArrayList<String> loadAvailableRooms() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        List<Room> rooms = new ArrayList<>();
+
+        try{
+            Query query = session.createQuery("SELECT roomTypeId FROM Room WHERE qty>0");
+
+            List <String> list= query.list();
+            System.out.println(list);
+
+            transaction.commit();
+
+            return (ArrayList<String>) list;
+        }catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+            return null;
+        }
+    }
+
+
 
 
 }

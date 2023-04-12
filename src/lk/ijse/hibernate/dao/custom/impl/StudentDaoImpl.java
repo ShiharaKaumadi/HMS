@@ -153,4 +153,30 @@ public class StudentDaoImpl implements StudentDAO {
             return 0;
         }
     }
+
+    @Override
+    public void isStudentExist() {
+
+    }
+
+    @Override
+    public ArrayList<String> loadStudentIds() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        List<Student> students = new ArrayList<>();
+
+        try{
+            Query query = session.createQuery("SELECT id FROM Student");
+            List <String> list= query.list();
+            System.out.println(list);
+
+            transaction.commit();
+
+            return (ArrayList<String>) list;
+        }catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+            return null;
+        }
+    }
 }
