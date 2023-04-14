@@ -65,4 +65,9 @@ public class StudentBoImpl implements StudentBo {
     public long countMaleStudent() throws SQLException, ClassNotFoundException {
         return studentDaoImpl.collectTotalMaleStudents();
     }
+
+    @Override
+    public ArrayList<StudentDTO> getPaymentDueStudents() throws SQLException, ClassNotFoundException {
+        return null;
+    }
 }

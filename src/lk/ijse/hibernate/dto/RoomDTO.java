@@ -1,12 +1,27 @@
 package lk.ijse.hibernate.dto;
 
+import lk.ijse.hibernate.entity.Reservation;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class RoomDTO {
     private String roomTypeId;
     private String roomType;
     private String keyMoney;
     private int qty;
+    private List<ReservationDTO> list = new ArrayList<>();
 
     public RoomDTO() {
+
+    }
+
+    public RoomDTO(String roomTypeId, String roomType, String keyMoney, int qty, List<ReservationDTO> list) {
+        this.roomTypeId = roomTypeId;
+        this.roomType = roomType;
+        this.keyMoney = keyMoney;
+        this.qty = qty;
+        this.list = list;
     }
 
     public RoomDTO(String roomTypeId, String roomType, String keyMoney, int qty) {
@@ -48,13 +63,11 @@ public class RoomDTO {
         this.qty = qty;
     }
 
-    @Override
-    public String toString() {
-        return "RoomDTO{" +
-                "roomTypeId='" + roomTypeId + '\'' +
-                ", roomType='" + roomType + '\'' +
-                ", keyMoney='" + keyMoney + '\'' +
-                ", qty=" + qty +
-                '}';
+    public List<ReservationDTO> getList() {
+        return list;
+    }
+
+    public void setList(List<ReservationDTO> list) {
+        this.list = list;
     }
 }

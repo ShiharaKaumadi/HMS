@@ -17,6 +17,7 @@ public class StudentDaoImpl implements StudentDAO {
     public boolean add(Student student) throws SQLException, ClassNotFoundException {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
+        System.out.println(student);
         try{
             session.saveOrUpdate(student);
             System.out.println(student.getName());
@@ -51,19 +52,20 @@ public class StudentDaoImpl implements StudentDAO {
 
     @Override
     public boolean update(Student student) throws SQLException, ClassNotFoundException {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
-        //transaction.begin();
-        try{
-            session.saveOrUpdate(student);
+        Session session=FactoryConfiguration.getInstance().getSession();
+        Transaction transaction=session.beginTransaction();
+        try {
+            session.update(student);
             transaction.commit();
-            System.out.println(student);
             return true;
         }catch (Exception e){
-            System.out.println(e);;
+            e.printStackTrace();
             transaction.rollback();
             return false;
+        }finally {
+            session.close();
         }
+
     }
 
     @Override

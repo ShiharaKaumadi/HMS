@@ -1,9 +1,6 @@
 package lk.ijse.hibernate.dao.util;
 
-import lk.ijse.hibernate.dao.custom.impl.ReservationDAOImpl;
-import lk.ijse.hibernate.dao.custom.impl.RoomsDaoImpl;
-import lk.ijse.hibernate.dao.custom.impl.StudentDaoImpl;
-import lk.ijse.hibernate.dao.custom.impl.UserDaoImpl;
+import lk.ijse.hibernate.dao.custom.impl.*;
 
 public class DAOFactory {
     public static DAOFactory daoFactory;
@@ -25,6 +22,8 @@ public class DAOFactory {
                 return new RoomsDaoImpl();
             case RESERVATION:
                 return new ReservationDAOImpl();
+            case PAYMENT_DUE:
+                return new QueryDAOImpl();
             default:
                 return null;
         }

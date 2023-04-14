@@ -105,6 +105,7 @@ public class ManageStudentFormController {
     }
 
     public void btnAddOnAction(ActionEvent actionEvent) throws IOException {
+        String studentId = txtStudentID.getText();
 
         String name = txtName.getText();
         String address = txtAddress.getText();
@@ -116,7 +117,7 @@ public class ManageStudentFormController {
         boolean isAddressMatched = address.matches("^[a-zA-Z][a-zA-Z\\s]{0,100}$");
         boolean isContactMatched = contactNo.matches("^(070|071|072|074|075|078|077|076)([0-9]{7})$");
         boolean isGenderMatched = gender.matches("^(Female|female|Male|male)$");
-        StudentDTO studentDTO = new StudentDTO(name, address, contactNo, dob, gender);
+        StudentDTO studentDTO = new StudentDTO(studentId,name, address, contactNo, dob, gender);
         ObservableList<StudentDTO> studentDTOS = tblStudentData.getItems();
 
         if (isNameMatched) {

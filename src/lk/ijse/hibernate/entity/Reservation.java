@@ -9,30 +9,43 @@ public class Reservation {
     @Id
     private String resId;
     private LocalDate date;
-    private String studentId;
-    private String roomTypeId;
     private String status;
+    private String id;
+    private String rId;
     @ManyToOne
-    private Student student;
+    private Student studentId;
+    @ManyToOne
+    private Room roomTypeId;
 
     public Reservation() {
     }
 
-    public Reservation(String resId, LocalDate date, String studentId, String roomTypeId, String status) {
+    public Reservation(String resId, LocalDate date, String status, Student studentId, Room roomTypeId) {
         this.resId = resId;
         this.date = date;
+        this.status = status;
         this.studentId = studentId;
         this.roomTypeId = roomTypeId;
-        this.status = status;
     }
 
-    public Reservation(String resId, LocalDate date, String studentId, String roomTypeId, String status, Student student) {
+    public Reservation(String resId, LocalDate date, String status, String id, String rId, Student studentId, Room roomTypeId) {
         this.resId = resId;
         this.date = date;
+        this.status = status;
+        this.id = id;
+        this.rId = rId;
         this.studentId = studentId;
         this.roomTypeId = roomTypeId;
-        this.status = status;
-        this.student = student;
+    }
+
+    public Reservation(String resId, LocalDate date, String status) {
+    }
+
+    public Reservation(String resId, LocalDate date, String status, String id) {
+        this.resId=resId;
+        this.date =date;
+        this.status=status;
+        this.id=id;
     }
 
     public String getResId() {
@@ -51,22 +64,6 @@ public class Reservation {
         this.date = date;
     }
 
-    public String getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getRoomTypeId() {
-        return roomTypeId;
-    }
-
-    public void setRoomTypeId(String roomTypeId) {
-        this.roomTypeId = roomTypeId;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -75,12 +72,28 @@ public class Reservation {
         this.status = status;
     }
 
-    public Student getStudent() {
-        return student;
+    public Student getStudentId() {
+        return studentId;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudentId(Student studentId) {
+        this.studentId = studentId;
+    }
+
+    public Room getRoomTypeId() {
+        return roomTypeId;
+    }
+
+    public void setRoomTypeId(Room roomTypeId) {
+        this.roomTypeId = roomTypeId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -88,10 +101,11 @@ public class Reservation {
         return "Reservation{" +
                 "resId='" + resId + '\'' +
                 ", date=" + date +
-                ", studentId='" + studentId + '\'' +
-                ", roomTypeId='" + roomTypeId + '\'' +
                 ", status='" + status + '\'' +
-                ", student=" + student +
+                ", id='" + id + '\'' +
+                ", rId='" + rId + '\'' +
+                ", studentId=" + studentId +
+                ", roomTypeId=" + roomTypeId +
                 '}';
     }
 }

@@ -4,6 +4,7 @@ import lk.ijse.hibernate.dto.ReservationDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ReservationBo extends SuperBo{
     boolean addReservation(ReservationDTO reservationDTO) throws SQLException, ClassNotFoundException;
@@ -13,4 +14,7 @@ public interface ReservationBo extends SuperBo{
     ArrayList<String> loadRoomTypeID() throws SQLException, ClassNotFoundException;
 
 
+    ArrayList<ReservationDTO> getPaymentDueStudents() throws SQLException, ClassNotFoundException;
+
+    List<ReservationDTO> getAllReservations()throws SQLException, ClassNotFoundException;
 }

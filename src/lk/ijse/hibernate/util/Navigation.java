@@ -41,6 +41,10 @@ public class Navigation {
                 window.setTitle("Create Account");
                 initUI("CreateAccountForm.fxml");
                 break;
+            case PAYMENT_DUE:
+                window.setTitle("Pending list");
+                initUI("PaymentDueForm.fxml");
+                break;
 
 
 

@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -19,15 +20,20 @@ import lk.ijse.hibernate.bo.custom.ReservationBo;
 import lk.ijse.hibernate.bo.custom.StudentBo;
 import lk.ijse.hibernate.dao.util.DAOFactory;
 import lk.ijse.hibernate.dto.ReservationDTO;
+import lk.ijse.hibernate.dto.RoomDTO;
 import lk.ijse.hibernate.dto.StudentDTO;
+import lk.ijse.hibernate.entity.Room;
+import lk.ijse.hibernate.entity.Student;
 import lk.ijse.hibernate.util.Navigation;
 import lk.ijse.hibernate.util.Routes;
+import lk.ijse.hibernate.views.tm.ReservationTM;
 import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,15 +49,16 @@ public class ReservationFormController {
     public Pane searchBar;
     public TextField txtSearch;
     public JFXTextField txtResID;
-    
+
     public JFXDatePicker dtDate;
     public JFXButton btnReserved;
-    
+
     public JFXComboBox cmbStudentID;
     public JFXComboBox cmbRoomTypeID;
     public JFXComboBox cmbStatus;
-
+    private final ObservableList<ReservationDTO> obList = FXCollections.observableArrayList();
     ReservationBo reservationBoImpl = (ReservationBo) BOFactory.getBoFactory().getBO(BOTypes.RESERVATION);
+    StudentBo studentBoImpl = (StudentBo) BOFactory.getBoFactory().getBO(BOTypes.STUDENT);
 
     public void initialize(){
         loadRegisteredStudents();
@@ -61,13 +68,33 @@ public class ReservationFormController {
 
         ObservableList<String> status = FXCollections.observableArrayList("Paid","Pending");
         cmbStatus.setItems(status);
-        
+
     }
 
     private void loadSetCellValueFactory() {
+        colResID.setCellValueFactory(new PropertyValueFactory<>("resId"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colStudentIID.setCellValueFactory(new PropertyValueFactory<>("studentId"));
+        colRoomTypeID.setCellValueFactory(new PropertyValueFactory<>("roomTypeId"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
     private void loadTableData() {
+        List<ReservationDTO> roomDTOS = null;
+        try {
+            roomDTOS = reservationBoImpl.getAllReservations();
+            for (ReservationDTO roomDTO : roomDTOS) {
+
+                ReservationDTO roomDTO1 = new ReservationDTO(roomDTO.getResId(),roomDTO.getDate(),roomDTO.getStudentId().toString(),roomDTO.getRoomTypeId().toString(),roomDTO.getStatus());
+                obList.add(roomDTO1);
+                System.out.println(roomDTO1);
+                tblReservationData.setItems(obList);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void loadRoomTypeIDsAvailable() {
@@ -118,28 +145,26 @@ public class ReservationFormController {
         Navigation.navigate(Routes.RESERVATION,brdPane);
     }
 
-    public void btnResrvedOnAction(ActionEvent actionEvent) {
+    public void btnResrvedOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         String resId = txtResID.getText();
         LocalDate date = dtDate.getValue();
         String studentID = cmbStudentID.getSelectionModel().getSelectedItem().toString();
+        System.out.println(studentID);
         String roomTypeID = cmbRoomTypeID.getSelectionModel().getSelectedItem().toString();
+        System.out.println(roomTypeID);
         String status = cmbStatus.getSelectionModel().getSelectedItem().toString();
 
         boolean isResIDMatched = resId.matches("^RS-\\d{3}$");
-        boolean isStudentIdMatched = studentID.matches("^S\\d{3}$");
-        boolean isRoomTypeIDMatched = roomTypeID.matches("^RM-\\d{4}$");
-
-
         boolean isStatusMatched = status.matches("^Paid|Pending$");
 
-        ReservationDTO resrevationDTO = new ReservationDTO(resId, date, studentID, roomTypeID, status);
+        ReservationDTO resrevationDTO = new ReservationDTO(resId, date, studentID,roomTypeID,status);
         ObservableList<ReservationDTO> reservationDTOS = tblReservationData.getItems();
 
         if (isResIDMatched) {
-            if (isStudentIdMatched) {
-                if (isRoomTypeIDMatched) {
 
-                        if (isStatusMatched) {
+
+
+
                             try {
                                 boolean isAdded = reservationBoImpl.addReservation(resrevationDTO);
                                 System.out.println(isAdded);
@@ -168,18 +193,10 @@ public class ReservationFormController {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                        }else{
-                            cmbStatus.setFocusColor(Paint.valueOf("Red"));
-                            cmbStatus.requestFocus();
-                        }
 
-                } else {
-                    cmbRoomTypeID.setFocusColor(Paint.valueOf("Red"));
-                    cmbRoomTypeID.requestFocus();
-                }
-            } else {
-                cmbStudentID.setFocusColor(Paint.valueOf("Red"));
-                cmbStudentID.requestFocus();            }
+
+
+
         } else {
             txtResID.setFocusColor(Paint.valueOf("Red"));
             txtResID.requestFocus();

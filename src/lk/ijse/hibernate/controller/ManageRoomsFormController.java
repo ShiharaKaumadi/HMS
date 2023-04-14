@@ -69,7 +69,7 @@ public class ManageRoomsFormController {
             roomDTOS = roomBoImpl.getAllRooms();
             for (RoomDTO roomDTO : roomDTOS) {
 
-                RoomDTO roomDTO1 = new RoomDTO(roomDTO.getRoomTypeId(),roomDTO.getRoomType(),roomDTO.getKeyMoney(),roomDTO.getQty());
+                RoomDTO roomDTO1 = new RoomDTO(roomDTO.getRoomTypeId(),roomDTO.getRoomType(),roomDTO.getKeyMoney(),roomDTO.getQty(),roomDTO.getList());
                 obList.add(roomDTO1);
                 System.out.println(roomDTO1);
                 tblRoomData.setItems(obList);

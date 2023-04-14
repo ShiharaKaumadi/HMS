@@ -10,25 +10,21 @@ import java.util.List;
 @Entity
 public class Student {
     @Id
+
     private String id;
     private String name;
     private String adddress;
     private String contactNo;
     private LocalDate dob;
     private String gender;
-    @OneToMany(mappedBy = "student",targetEntity = Reservation.class)
+    @OneToMany(mappedBy = "resId",targetEntity = Reservation.class)
     private List<Reservation> list = new ArrayList<>();
 
     public Student() {
     }
 
-    public Student(String id, String name, String adddress, String contactNo, LocalDate dob, String gender) {
+    public Student(String id) {
         this.id = id;
-        this.name = name;
-        this.adddress = adddress;
-        this.contactNo = contactNo;
-        this.dob = dob;
-        this.gender = gender;
     }
 
     public Student(String id, String name, String adddress, String contactNo, LocalDate dob, String gender, List<Reservation> list) {
@@ -41,7 +37,8 @@ public class Student {
         this.list = list;
     }
 
-    public Student(String name, String adddress, String contactNo, LocalDate dob, String gender) {
+    public Student(String id, String name, String adddress, String contactNo, LocalDate dob, String gender) {
+        this.id = id;
         this.name = name;
         this.adddress = adddress;
         this.contactNo = contactNo;
@@ -65,16 +62,12 @@ public class Student {
         this.name = name;
     }
 
-    public String getAdddress(String galle) {
+    public String getAdddress() {
         return adddress;
     }
 
     public void setAdddress(String adddress) {
         this.adddress = adddress;
-    }
-
-    public String getAdddress() {
-        return adddress;
     }
 
     public String getContactNo() {

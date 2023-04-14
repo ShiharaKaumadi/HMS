@@ -3,6 +3,7 @@ package lk.ijse.hibernate.bo.custom;
 import lk.ijse.hibernate.dto.StudentDTO;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface StudentBo extends SuperBo{
@@ -23,4 +24,6 @@ public interface StudentBo extends SuperBo{
     long countFemaleStudent() throws SQLException, ClassNotFoundException ;
 
     long countMaleStudent()throws SQLException, ClassNotFoundException ;
+
+    ArrayList<StudentDTO> getPaymentDueStudents() throws SQLException, ClassNotFoundException ;
 }

@@ -7,6 +7,5 @@
    <children>
       <Label fx:id="llName" layoutX="21.0" layoutY="27.0" text="Name" />
       <Label fx:id="lblPaymentDue" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="233.0" layoutY="27.0" prefHeight="21.0" prefWidth="104.0" text="1000.00" textAlignment="RIGHT" />
-      <Label layoutX="345.0" layoutY="27.0" text="LKR" />
    </children>
 </Pane>

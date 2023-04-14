@@ -17,7 +17,7 @@ public class RoomBoImpl implements RoomBo {
     private final RoomsDAO roomDaoImpl = (RoomsDAO) DAOFactory.getDaoFactory().getDAO(DAOTypes.ROOM);
     @Override
     public boolean addRoom(RoomDTO roomDto) throws SQLException, ClassNotFoundException {
-        return roomDaoImpl.add(new Room(roomDto.getRoomTypeId(),roomDto.getRoomType(),roomDto.getKeyMoney(),roomDto.getQty()));
+        return roomDaoImpl.add(new Room(roomDto.getRoomTypeId(),roomDto.getRoomType(),roomDto.getKeyMoney(),roomDto.getQty(),roomDto.getList()));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class RoomBoImpl implements RoomBo {
 
     @Override
     public boolean updateRoom(RoomDTO roomDto) throws SQLException, ClassNotFoundException {
-        return roomDaoImpl.update(new Room(roomDto.getRoomTypeId(),roomDto.getRoomType(),roomDto.getKeyMoney(),roomDto.getQty()));
+        return roomDaoImpl.update(new Room(roomDto.getRoomTypeId(),roomDto.getRoomType(),roomDto.getKeyMoney(),roomDto.getQty(),roomDto.getList()));
     }
 
 
