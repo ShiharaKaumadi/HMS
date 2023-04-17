@@ -3,7 +3,6 @@ package lk.ijse.hibernate.dao.custom.impl;
 import lk.ijse.hibernate.dao.custom.ReservationDAO;
 import lk.ijse.hibernate.dto.ReservationDTO;
 import lk.ijse.hibernate.entity.Reservation;
-import lk.ijse.hibernate.entity.Student;
 import lk.ijse.hibernate.util.FactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -21,13 +20,13 @@ public class ReservationDAOImpl implements ReservationDAO {
         System.out.println(reservation);
         //transaction.begin();
 
-        try{
+        try {
             session.saveOrUpdate(reservation);
             System.out.println(reservation.getDate());
             transaction.commit();
             return true;
-        }catch (Exception e){
-            System.out.println(e);;
+        } catch (Exception e) {
+            e.printStackTrace();
             transaction.rollback();
             return false;
         }
@@ -40,7 +39,21 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public boolean update(Reservation reservation) throws SQLException, ClassNotFoundException {
-        return false;
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        System.out.println(reservation);
+        //transaction.begin();
+
+        try {
+            session.update(reservation);
+            System.out.println(reservation.getDate());
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+            transaction.rollback();
+            return false;
+        }
     }
 
     @Override
@@ -52,22 +65,28 @@ public class ReservationDAOImpl implements ReservationDAO {
     public ArrayList<Reservation> getAll() throws SQLException, ClassNotFoundException {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        List<ReservationDTO> students = new ArrayList<>();
+        Query<Reservation> from_reservation_ = session.createQuery("From Reservation ");
+        try {
+            List<Reservation> list = from_reservation_.list();
 
+            for (Reservation reservation : list) {
 
-        try{
-            Query query = session.createQuery("FROM Reservation");
-            List <Reservation> list= query.list();
-            System.out.println(list);
+                reservation.getRoomTypeId();
+                reservation.getDate();
+                reservation.getStatus();
+                reservation.getStudentId();
+                reservation.getRoomTypeId();
 
+            }
             transaction.commit();
-
             return (ArrayList<Reservation>) list;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             transaction.rollback();
             return null;
         }
+
+
     }
 
     @Override
@@ -77,15 +96,15 @@ public class ReservationDAOImpl implements ReservationDAO {
         List<ReservationDTO> students = new ArrayList<>();
 
 
-        try{
+        try {
             Query query = session.createQuery("FROM Reservation WHERE status='Pending'");
-            List <Reservation> list= query.list();
+            List<Reservation> list = query.list();
             System.out.println(list);
 
             transaction.commit();
 
             return (ArrayList<Reservation>) list;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             transaction.rollback();
             return null;

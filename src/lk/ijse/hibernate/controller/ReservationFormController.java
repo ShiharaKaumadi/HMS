@@ -22,12 +22,16 @@ import lk.ijse.hibernate.dao.util.DAOFactory;
 import lk.ijse.hibernate.dto.ReservationDTO;
 import lk.ijse.hibernate.dto.RoomDTO;
 import lk.ijse.hibernate.dto.StudentDTO;
+import lk.ijse.hibernate.entity.Reservation;
 import lk.ijse.hibernate.entity.Room;
 import lk.ijse.hibernate.entity.Student;
+import lk.ijse.hibernate.util.FactoryConfiguration;
 import lk.ijse.hibernate.util.Navigation;
 import lk.ijse.hibernate.util.Routes;
 import lk.ijse.hibernate.views.tm.ReservationTM;
 import org.controlsfx.control.Notifications;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -85,7 +89,7 @@ public class ReservationFormController {
             roomDTOS = reservationBoImpl.getAllReservations();
             for (ReservationDTO roomDTO : roomDTOS) {
 
-                ReservationDTO roomDTO1 = new ReservationDTO(roomDTO.getResId(),roomDTO.getDate(),roomDTO.getStudentId().toString(),roomDTO.getRoomTypeId().toString(),roomDTO.getStatus());
+                ReservationDTO roomDTO1 = new ReservationDTO(roomDTO.getResId(),roomDTO.getDate(),roomDTO.getStudentId(),roomDTO.getRoomTypeId(),roomDTO.getStatus());
                 obList.add(roomDTO1);
                 System.out.println(roomDTO1);
                 tblReservationData.setItems(obList);
@@ -102,8 +106,11 @@ public class ReservationFormController {
             ObservableList<String> observableList = FXCollections.observableArrayList();
             ArrayList<String> idList = reservationBoImpl.loadRoomTypeID();
 
+
+
             for (String id : idList) {
                 observableList.add(id);
+
             }
             cmbRoomTypeID.setItems(observableList);
         } catch (SQLException | ClassNotFoundException e) {
@@ -146,9 +153,16 @@ public class ReservationFormController {
     }
 
     public void btnResrvedOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+//        Reservation reservation = new Reservation("000", dtDate.getValue(), "neee", new Student("S001"), new Room("RM-1234"));
+//        Session session = FactoryConfiguration.getInstance().getSession();
+//        Transaction transaction = session.beginTransaction();
+//        session.save(reservation);
+//        transaction.commit();
+//        session.close();
+
         String resId = txtResID.getText();
         LocalDate date = dtDate.getValue();
-        String studentID = cmbStudentID.getSelectionModel().getSelectedItem().toString();
+        String studentID = (String) cmbStudentID.getSelectionModel().getSelectedItem();
         System.out.println(studentID);
         String roomTypeID = cmbRoomTypeID.getSelectionModel().getSelectedItem().toString();
         System.out.println(roomTypeID);
@@ -157,14 +171,10 @@ public class ReservationFormController {
         boolean isResIDMatched = resId.matches("^RS-\\d{3}$");
         boolean isStatusMatched = status.matches("^Paid|Pending$");
 
-        ReservationDTO resrevationDTO = new ReservationDTO(resId, date, studentID,roomTypeID,status);
+        ReservationDTO resrevationDTO = new ReservationDTO(resId, date,studentID,roomTypeID,status);
         ObservableList<ReservationDTO> reservationDTOS = tblReservationData.getItems();
 
         if (isResIDMatched) {
-
-
-
-
                             try {
                                 boolean isAdded = reservationBoImpl.addReservation(resrevationDTO);
                                 System.out.println(isAdded);
@@ -188,15 +198,9 @@ public class ReservationFormController {
                                 } else if (result.get() == ButtonType.CANCEL) {
                                     Navigation.navigate(Routes.RESERVATION, brdPane);
                                 }
-
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
-
-
-
         } else {
             txtResID.setFocusColor(Paint.valueOf("Red"));
             txtResID.requestFocus();

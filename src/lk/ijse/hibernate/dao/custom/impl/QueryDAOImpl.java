@@ -19,7 +19,7 @@ import java.util.List;
 public class QueryDAOImpl implements QueryDAO {
     @Override
     public ArrayList<CustomDTO> getStudentDetailsFromStudentId(String studentID) throws SQLException, ClassNotFoundException {
-        ArrayList<CustomDTO> customDTOArrayList = new ArrayList<>();
+       /* ArrayList<CustomDTO> customDTOArrayList = new ArrayList<>();
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         List<CustomDTO> students = new ArrayList<>();
@@ -34,8 +34,8 @@ public class QueryDAOImpl implements QueryDAO {
             return (ArrayList<CustomDTO>) list;
         }catch (Exception e){
             System.out.println(e);
-            transaction.rollback();
+            transaction.rollback();*/
             return null;
         }
-    }
+
 }

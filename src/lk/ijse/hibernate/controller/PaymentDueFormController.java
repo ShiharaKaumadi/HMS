@@ -17,7 +17,7 @@ public class PaymentDueFormController {
         this.reservationDTO=reservationDTO;
 
         System.out.println(reservationDTO.getStudentId());
-         llName.setText(reservationDTO.getStudentId());
+         llName.setText(String.valueOf(reservationDTO.getStudentId()));
 
         lblPaymentDue.setText(String.valueOf(reservationDTO.getStatus()));
     }
@@ -26,7 +26,7 @@ public class PaymentDueFormController {
     public void setData(CustomDTO customDTO) {
         this.reservationDTO=reservationDTO;
 
-        llName.setText(reservationDTO.getStudentId());
+        llName.setText(String.valueOf(reservationDTO.getStudentId()));
 
         lblPaymentDue.setText(String.valueOf(reservationDTO.getStatus()));
     }

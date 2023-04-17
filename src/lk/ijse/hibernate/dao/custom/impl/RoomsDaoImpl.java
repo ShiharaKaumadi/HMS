@@ -1,8 +1,6 @@
 package lk.ijse.hibernate.dao.custom.impl;
 
 import lk.ijse.hibernate.dao.custom.RoomsDAO;
-import lk.ijse.hibernate.dto.CustomDTO;
-import lk.ijse.hibernate.dto.ReservationDTO;
 import lk.ijse.hibernate.entity.Reservation;
 import lk.ijse.hibernate.entity.Room;
 import lk.ijse.hibernate.util.FactoryConfiguration;
@@ -145,7 +143,7 @@ public class RoomsDaoImpl implements RoomsDAO {
     }
 
     @Override
-    public ArrayList<ReservationDTO> getPaymentDueStudentList() {
+    public ArrayList<Reservation> getPaymentDueStudentList() {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         List<Reservation> rooms = new ArrayList<>();
@@ -153,12 +151,12 @@ public class RoomsDaoImpl implements RoomsDAO {
         try{
             Query query = session.createQuery("FROM Reservation WHERE status ='Pending'");
 
-            List <ReservationDTO> list= query.list();
+            List <Reservation> list= query.list();
             System.out.println(list);
 
             transaction.commit();
 
-            return (ArrayList<ReservationDTO>) list;
+            return (ArrayList<Reservation>) list;
         }catch (Exception e){
             System.out.println(e);
             transaction.rollback();

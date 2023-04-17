@@ -1,9 +1,6 @@
 package lk.ijse.hibernate.dao.custom;
 
 import lk.ijse.hibernate.dao.util.CrudDAO;
-import lk.ijse.hibernate.dto.CustomDTO;
-import lk.ijse.hibernate.dto.ReservationDTO;
-import lk.ijse.hibernate.dto.RoomDTO;
 import lk.ijse.hibernate.entity.Reservation;
 import lk.ijse.hibernate.entity.Room;
 
@@ -17,5 +14,5 @@ public interface RoomsDAO extends CrudDAO<Room, String> {
 
     ArrayList<String> loadAvailableRooms();
 
-    ArrayList<ReservationDTO> getPaymentDueStudentList();
+    ArrayList<Reservation> getPaymentDueStudentList();
 }

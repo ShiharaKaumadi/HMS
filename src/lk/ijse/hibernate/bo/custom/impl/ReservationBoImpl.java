@@ -24,6 +24,7 @@ public class ReservationBoImpl implements ReservationBo {
     @Override
     public boolean addReservation(ReservationDTO resrevationDTO) throws SQLException, ClassNotFoundException {
         String studentId = resrevationDTO.getStudentId();
+        System.out.println(resrevationDTO.getStudentId());
         Reservation reservation = new Reservation(resrevationDTO.getResId(), resrevationDTO.getDate(), resrevationDTO.getStatus(), new Student(resrevationDTO.getStudentId()),new Room(resrevationDTO.getRoomTypeId()));
 
         System.out.println("ToString"+reservation);
@@ -32,7 +33,9 @@ public class ReservationBoImpl implements ReservationBo {
 
     @Override
     public ArrayList<String> loadAllStudentIDs() throws SQLException, ClassNotFoundException{
+
         return studentDAOImpl.loadStudentIds();
+
     }
 
     @Override
@@ -47,7 +50,7 @@ public class ReservationBoImpl implements ReservationBo {
         for (Reservation reservation: topSellingItemOrder){
             reservationDTOArrayList.add(
                     new ReservationDTO(reservation.getResId(),reservation.getDate(),
-                            String.valueOf(reservation.getStudentId()),String.valueOf(reservation.getRoomTypeId()),reservation.getStatus()));
+                            reservation.getStudentId().getId(),reservation.getRoomTypeId().getRoomTypeId(),reservation.getStatus()));
         }
         return reservationDTOArrayList;
     }
@@ -57,7 +60,7 @@ public class ReservationBoImpl implements ReservationBo {
         ArrayList <ReservationDTO> arrayList = new ArrayList<>();
         ArrayList<Reservation> all = reservationDaoImpl.getAll();
         for (Reservation room:all){
-            arrayList.add(new ReservationDTO(room.getResId(),room.getDate(), String.valueOf(room.getStudentId()),String.valueOf(room.getRoomTypeId()),room.getStatus()));
+            arrayList.add(new ReservationDTO(room.getResId(),room.getDate(),room.getStudentId().getId(),room.getRoomTypeId().getRoomTypeId(),room.getStatus()));
         }
         return arrayList;
     }

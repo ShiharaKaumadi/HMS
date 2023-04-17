@@ -2,6 +2,7 @@ package lk.ijse.hibernate.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 @Entity
@@ -10,17 +11,19 @@ public class Reservation {
     private String resId;
     private LocalDate date;
     private String status;
-    private String id;
-    private String rId;
     @ManyToOne
+    @JoinColumn(name = "id", referencedColumnName = "id")
     private Student studentId;
     @ManyToOne
+   @JoinColumn(name = "roomTypeId", referencedColumnName = "roomTypeId")
     private Room roomTypeId;
 
     public Reservation() {
     }
 
     public Reservation(String resId, LocalDate date, String status, Student studentId, Room roomTypeId) {
+        System.out.println("Room Type ID: "+roomTypeId);
+        System.out.println("Room Type ID: "+studentId);
         this.resId = resId;
         this.date = date;
         this.status = status;
@@ -28,24 +31,13 @@ public class Reservation {
         this.roomTypeId = roomTypeId;
     }
 
-    public Reservation(String resId, LocalDate date, String status, String id, String rId, Student studentId, Room roomTypeId) {
-        this.resId = resId;
-        this.date = date;
-        this.status = status;
-        this.id = id;
-        this.rId = rId;
-        this.studentId = studentId;
-        this.roomTypeId = roomTypeId;
-    }
+
 
     public Reservation(String resId, LocalDate date, String status) {
-    }
-
-    public Reservation(String resId, LocalDate date, String status, String id) {
         this.resId=resId;
         this.date =date;
         this.status=status;
-        this.id=id;
+
     }
 
     public String getResId() {
@@ -88,13 +80,7 @@ public class Reservation {
         this.roomTypeId = roomTypeId;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     @Override
     public String toString() {
@@ -102,8 +88,7 @@ public class Reservation {
                 "resId='" + resId + '\'' +
                 ", date=" + date +
                 ", status='" + status + '\'' +
-                ", id='" + id + '\'' +
-                ", rId='" + rId + '\'' +
+
                 ", studentId=" + studentId +
                 ", roomTypeId=" + roomTypeId +
                 '}';

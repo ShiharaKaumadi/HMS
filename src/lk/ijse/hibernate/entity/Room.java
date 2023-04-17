@@ -17,8 +17,8 @@ public class Room {
     private String type;
     private String keyMoney;
     private int qty;
-    @OneToMany(mappedBy = "resId",targetEntity = Reservation.class,cascade = CascadeType.ALL)
-    private List<ReservationDTO> list = new ArrayList<>();
+    @OneToMany(mappedBy = "resId",targetEntity = Reservation.class)
+    private List<Reservation> list = new ArrayList<>();
 
     public Room() {
 
@@ -28,7 +28,7 @@ public class Room {
         this.roomTypeId = roomTypeId;
     }
 
-    public Room(String roomTypeId, String type, String keyMoney, int qty, List<ReservationDTO> list) {
+    public Room(String roomTypeId, String type, String keyMoney, int qty, List<Reservation> list) {
         this.roomTypeId = roomTypeId;
         this.type = type;
         this.keyMoney = keyMoney;
@@ -68,11 +68,22 @@ public class Room {
         this.qty = qty;
     }
 
-    public List<ReservationDTO> getList() {
+    public List<Reservation> getList() {
         return list;
     }
 
-    public void setList(List<ReservationDTO> list) {
+    public void setList(List<Reservation> list) {
         this.list = list;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomTypeId='" + roomTypeId + '\'' +
+                ", type='" + type + '\'' +
+                ", keyMoney='" + keyMoney + '\'' +
+                ", qty=" + qty +
+                ", list=" + list +
+                '}';
     }
 }
