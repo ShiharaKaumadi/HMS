@@ -24,4 +24,6 @@ public interface ReservationBo extends SuperBo{
     ReservationDTO searchReservation(String id) throws SQLException, ClassNotFoundException;
 
     boolean updateReservation(ReservationDTO resrevationDTO)throws SQLException, ClassNotFoundException;
+
+    boolean deleteReservation(String id)throws SQLException, ClassNotFoundException;
 }

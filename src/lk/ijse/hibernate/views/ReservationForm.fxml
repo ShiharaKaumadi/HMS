@@ -104,6 +104,7 @@
                     </children>
                 </Pane>
             <JFXButton layoutX="1201.0" layoutY="767.0" onAction="#btnUpdateOnAction" text="Update" />
+            <JFXButton layoutX="1209.0" layoutY="835.0" onAction="#btnDeleteOnAction" text="Delete" />
             </children>
         </Pane>
     </center>

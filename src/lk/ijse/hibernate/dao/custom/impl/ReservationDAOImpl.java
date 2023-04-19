@@ -49,7 +49,18 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public boolean delete(String s) throws SQLException, ClassNotFoundException {
-        return false;
+        Session session=FactoryConfiguration.getInstance().getSession();
+        Transaction transaction=session.beginTransaction();
+        try {
+            Reservation room=session.load(Reservation.class,s);
+            session.delete(room);
+            transaction.commit();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            transaction.rollback();
+            return false;
+        }
     }
 
     @Override

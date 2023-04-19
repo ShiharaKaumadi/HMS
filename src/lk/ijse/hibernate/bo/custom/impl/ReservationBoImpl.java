@@ -82,5 +82,10 @@ public class ReservationBoImpl implements ReservationBo {
         return reservationDaoImpl.update(new Reservation(resrevationDTO.getResId(),resrevationDTO.getDate(),resrevationDTO.getStatus(),new Student(resrevationDTO.getStudentId()),new Room(resrevationDTO.getRoomTypeId())));
     }
 
+    @Override
+    public boolean deleteReservation(String id) throws SQLException, ClassNotFoundException {
+        return reservationDaoImpl.delete(id);
+    }
+
 
 }

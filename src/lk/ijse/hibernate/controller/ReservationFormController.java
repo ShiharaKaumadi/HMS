@@ -301,4 +301,43 @@ public class ReservationFormController {
         cmbRoomTypeID.setDisable(true);
         cmbStatus.getSelectionModel().select(roomDTO.getStatus());
     }
+
+    public void btnDeleteOnAction(ActionEvent actionEvent) {
+        String id = txtResID.getText();
+        boolean isDeleted;
+        try {
+            isDeleted = reservationBoImpl.deleteReservation(id);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Reservation");
+            alert.setContentText("Are you sure you want to delete details ?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.equals(null)) {
+                Navigation.navigate(Routes.RESERVATION, brdPane);
+            } else if (result.get() == ButtonType.OK) {
+                if (isDeleted) {
+                    int selectedIndex = tblReservationData.getSelectionModel().getSelectedIndex();
+                    tblReservationData.getItems().remove(selectedIndex);
+                    Notifications notifications = Notifications.create().text("Reservation Details Deleted.").title("Delete ").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                    notifications.showInformation();
+                } else {
+                    Notifications notifications = Notifications.create().text("Reservation Details Not Found.").title("Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                    notifications.showError();
+                }
+            } else if (result.get() == ButtonType.CANCEL) {
+                Navigation.navigate(Routes.ROOMS, brdPane);
+            }
+
+
+        } catch (ClassNotFoundException e) {
+            Notifications notifications = Notifications.create().text("Driver Not Found.").title("ClassNotFound Exception").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+            notifications.showError();
+
+        } catch (SQLException e) {
+            Notifications notifications = Notifications.create().text("Reservation Not Identified").title("Warning").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+            notifications.showError();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
