@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -338,6 +339,21 @@ public class ReservationFormController {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void tblReservationOnMouseClicked(MouseEvent mouseEvent) {
+        ReservationDTO roomDTO = (ReservationDTO) tblReservationData.getSelectionModel().getSelectedItem();
+        if (roomDTO != null) {
+            txtResID.setText(roomDTO.getResId());
+            txtResID.setDisable(true);
+            dtDate.setValue(roomDTO.getDate());
+            dtDate.setDisable(true);
+            cmbStudentID.getSelectionModel().select(roomDTO.getStudentId());
+            cmbStudentID.setDisable(true);
+            cmbRoomTypeID.getSelectionModel().select(roomDTO.getRoomTypeId());
+            cmbRoomTypeID.setDisable(true);
+            cmbStatus.getSelectionModel().select(roomDTO.getStatus());
         }
     }
 }
