@@ -180,5 +180,69 @@ public class RoomsDaoImpl implements RoomsDAO {
         }
     }
 
+    @Override
+    public int countAcFoodAvailableooms() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            Integer singleResult = (Integer) session.createQuery("select qty FROM Room WHERE type='AC/Food' ").getSingleResult();
+            System.out.println(singleResult);
+            transaction.commit();
+            return singleResult;
+        }catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+            return 0;
+        }
+    }
+
+    @Override
+    public int countAcAvailableRooms() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            Integer singleResult = (Integer) session.createQuery("select qty FROM Room WHERE type='AC' ").getSingleResult();
+            System.out.println(singleResult);
+            transaction.commit();
+            return singleResult;
+        }catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+            return 0;
+        }
+    }
+
+    @Override
+    public int countNonAcFoodAvailableRooms() {
+       Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            Integer singleResult = (Integer) session.createQuery("select qty FROM Room WHERE type='NON_AC/Food' ").getSingleResult();
+            System.out.println(singleResult);
+            transaction.commit();
+            return singleResult;
+        }catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+            return 0;
+        }
+    }
+
+    @Override
+    public int countNonAcAvailableRooms() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            Integer singleResult = (Integer) session.createQuery("select qty FROM Room WHERE type='NON-AC' ").getSingleResult();
+            System.out.println(singleResult);
+            transaction.commit();
+            return singleResult;
+        }catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+            return 0;
+        }
+    }
+
 
 }

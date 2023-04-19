@@ -28,22 +28,20 @@ public class ReservationDAOImpl implements ReservationDAO {
         Transaction transaction2 = session2.beginTransaction();
 
         try{
-            session.saveOrUpdate(reservation);
-            Room search = roomDaoImpl.search(String.valueOf(reservation.getRoomTypeId()));
-            search.setQty(search.getQty()-1);
-            if (roomDaoImpl.update(search)){
+            session.save(reservation);
+          Room search = roomDaoImpl.search(reservation.getRoomTypeId().getRoomTypeId());
+           search.setQty(search.getQty()-1);
+          if (roomDaoImpl.update(search)){
                 transaction.commit();
-                transaction2.commit();
-                return true;
-            }else{
+           transaction2.commit();
+               return true;
+          }else{
                 transaction2.rollback();
 
-            }
-
-            return false;
+            }return false;
 
         }catch (Exception e){
-            System.out.println(e);;
+            System.out.println(e);
             transaction.rollback();
             return false;
         }
@@ -82,7 +80,7 @@ public class ReservationDAOImpl implements ReservationDAO {
             transaction.commit();
             return new Reservation(entity.getResId(),entity.getDate(),entity.getStatus(),entity.getStudentId(),entity.getRoomTypeId());
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e);
             transaction.rollback();
             return null;
         }

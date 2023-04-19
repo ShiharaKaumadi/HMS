@@ -172,7 +172,7 @@ public class ReservationFormController {
         if (isResIDMatched) {
                             try {
                                     boolean isAdded = reservationBoImpl.addReservation(resrevationDTO);
-                                    System.out.println(isAdded);
+                                    System.out.println(isAdded+"*************************************");
                                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                                     alert.setTitle("Add Reservation");
                                     alert.setContentText("Are you sure you want to add Reservation ?");
@@ -218,5 +218,87 @@ public class ReservationFormController {
 
     public void cmbSelectStudentIdOnAction(ActionEvent actionEvent) {
 
+    }
+
+    public void btnUpdateOnAction(ActionEvent actionEvent) {
+        String resId = txtResID.getText();
+        LocalDate date = dtDate.getValue();
+
+        String studentID = cmbStudentID.getSelectionModel().getSelectedItem().toString();
+
+        String roomTypeID = cmbRoomTypeID.getSelectionModel().getSelectedItem().toString();
+
+        String status = cmbStatus.getSelectionModel().getSelectedItem().toString();
+
+        ReservationDTO resrevationDTO = new ReservationDTO(resId, date, studentID, roomTypeID, status);
+        ObservableList<ReservationDTO> items = tblReservationData.getItems();
+
+        try {
+            boolean isUpdated = reservationBoImpl.updateReservation(resrevationDTO);
+            if (isUpdated) {
+
+                System.out.println(" I am in controller");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Update Room");
+                alert.setContentText("Are you sure you want to update reservation " + txtResID.getText() + " ?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.equals(null)) {
+                    Navigation.navigate(Routes.ROOMS, brdPane);
+                } else if (result.get() == ButtonType.OK) {
+                    items.add(resrevationDTO);
+                    tblReservationData.setItems(items);
+
+                    Notifications notifications = Notifications.create().text("Reservation Details Updated Successfuly").title("Update Reservation").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                    notifications.showInformation();
+                } else {
+                    Notifications notifications = Notifications.create().text("Reservation Not Updated.").title("Saving Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                    notifications.showInformation();
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        }
+
+        public void txtSearchOnAction(ActionEvent actionEvent) {
+        String id = txtSearch.getText();
+        try {
+            ReservationDTO roomDTO = reservationBoImpl.searchReservation(id);
+            if (roomDTO != null) {
+                fillData(roomDTO);
+                txtSearch.setText("");
+            } else {
+                Notifications notifications = Notifications.create().title(" Search room").text("room Not Found").hideAfter(Duration.seconds(3)).position(Pos.TOP_CENTER);
+                notifications.show();
+                txtResID.setText("");
+                dtDate.setValue(null);
+               cmbStudentID.setValue(null);
+                cmbRoomTypeID.setValue(null);
+                cmbStatus.setValue(null);
+
+
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void fillData(ReservationDTO roomDTO) {
+        txtResID.setText(roomDTO.getResId());
+        dtDate.setValue(roomDTO.getDate());
+        dtDate.setDisable(true);
+        cmbStudentID.getSelectionModel().select(roomDTO.getRoomTypeId());
+        cmbStudentID.setDisable(true);
+        cmbRoomTypeID.getSelectionModel().select(roomDTO.getStudentId());
+        cmbRoomTypeID.setDisable(true);
+        cmbStatus.getSelectionModel().select(roomDTO.getStatus());
     }
 }

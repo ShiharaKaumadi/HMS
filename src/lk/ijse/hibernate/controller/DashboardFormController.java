@@ -6,10 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
-import lk.ijse.hibernate.bo.custom.BOFactory;
-import lk.ijse.hibernate.bo.custom.BOTypes;
-import lk.ijse.hibernate.bo.custom.ReservationBo;
-import lk.ijse.hibernate.bo.custom.StudentBo;
+import lk.ijse.hibernate.bo.custom.*;
 import lk.ijse.hibernate.dto.CustomDTO;
 import lk.ijse.hibernate.dto.ReservationDTO;
 import lk.ijse.hibernate.entity.Reservation;
@@ -41,12 +38,17 @@ public class DashboardFormController {
 
     StudentBo studentBOImpl = (StudentBo) BOFactory.getBoFactory().getBO(BOTypes.STUDENT);
     ReservationBo reservationBoImpl = (ReservationBo) BOFactory.getBoFactory().getBO(BOTypes.RESERVATION);
+    RoomBo roomBoImpl = (RoomBo) BOFactory.getBoFactory().getBO(BOTypes.ROOM);
 
     public void initialize() throws SQLException, ClassNotFoundException {
         loadTotalStudentCount();
         loadTotalFemaleStudentCount();
         loadTotalFemaleStudentCount();
         loadTotalMaleStudentCount();
+        loadNonACAvailableRooms();
+        loadNonACFoodAvailableRooms();
+        loadACAvailableRooms();
+        loadACFoodAvailableRooms();
         loadTime();
         ArrayList<ReservationDTO> paymentDueStudents = reservationBoImpl.getPaymentDueStudents();
         paymentDueStudents.addAll(getData());
@@ -82,6 +84,51 @@ public class DashboardFormController {
             e.printStackTrace();
         }
 
+    }
+
+    private void loadACFoodAvailableRooms() {
+        try {
+            int room= roomBoImpl.countAcFoodAvailableRooms();
+            lblACFoodAvailable.setText(String.valueOf(room));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loadACAvailableRooms() {
+        try {
+            int room= roomBoImpl.countAcAvailableRooms();
+            lblACAvailable.setText(String.valueOf(room));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loadNonACFoodAvailableRooms() {
+        try {
+            int room= roomBoImpl.countNonAcFoodAvailableRooms();
+            System.out.println(room+"**********************************************************************");
+            lblNonAcFoodAvailable.setText(String.valueOf(room));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loadNonACAvailableRooms() {
+        try {
+            int room= roomBoImpl.countNonAcAvailableRooms();
+            lblNonACAvailable.setText(String.valueOf(room));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void loadTime() {

@@ -15,4 +15,12 @@ public interface RoomsDAO extends CrudDAO<Room, String> {
     ArrayList<String> loadAvailableRooms();
 
     ArrayList<Reservation> getPaymentDueStudentList();
+
+    int countAcFoodAvailableooms();
+
+    int countAcAvailableRooms();
+
+    int countNonAcFoodAvailableRooms();
+
+    int countNonAcAvailableRooms();
 }

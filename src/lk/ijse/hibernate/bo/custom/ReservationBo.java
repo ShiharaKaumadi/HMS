@@ -1,7 +1,6 @@
 package lk.ijse.hibernate.bo.custom;
 
 import lk.ijse.hibernate.dto.ReservationDTO;
-import lk.ijse.hibernate.entity.Student;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,4 +20,8 @@ public interface ReservationBo extends SuperBo{
 
 
     boolean stdIdExist(String studentID) throws SQLException, ClassNotFoundException;
+
+    ReservationDTO searchReservation(String id) throws SQLException, ClassNotFoundException;
+
+    boolean updateReservation(ReservationDTO resrevationDTO)throws SQLException, ClassNotFoundException;
 }

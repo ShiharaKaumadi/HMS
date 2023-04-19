@@ -1,7 +1,5 @@
 package lk.ijse.hibernate.bo.custom.impl;
 
-import javafx.geometry.Pos;
-import javafx.util.Duration;
 import lk.ijse.hibernate.bo.custom.ReservationBo;
 import lk.ijse.hibernate.dao.custom.ReservationDAO;
 import lk.ijse.hibernate.dao.custom.RoomsDAO;
@@ -12,7 +10,6 @@ import lk.ijse.hibernate.dto.ReservationDTO;
 import lk.ijse.hibernate.entity.Reservation;
 import lk.ijse.hibernate.entity.Room;
 import lk.ijse.hibernate.entity.Student;
-import org.controlsfx.control.Notifications;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -71,6 +68,18 @@ public class ReservationBoImpl implements ReservationBo {
     @Override
     public boolean stdIdExist(String studentID) throws SQLException, ClassNotFoundException {
         return false;
+    }
+
+    @Override
+    public ReservationDTO searchReservation(String id) throws SQLException, ClassNotFoundException {
+        Reservation room = reservationDaoImpl.search(id);
+        return new ReservationDTO(room.getResId(),room.getDate(),room.getRoomTypeId().getRoomTypeId(),room.getStudentId().getId(),room.getStatus());
+    }
+
+    @Override
+    public boolean updateReservation(ReservationDTO resrevationDTO) throws SQLException, ClassNotFoundException {
+
+        return reservationDaoImpl.update(new Reservation(resrevationDTO.getResId(),resrevationDTO.getDate(),resrevationDTO.getStatus(),new Student(resrevationDTO.getStudentId()),new Room(resrevationDTO.getRoomTypeId())));
     }
 
 

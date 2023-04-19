@@ -83,7 +83,7 @@
                 </TableView>
                 <Pane fx:id="searchBar" layoutX="972.0" layoutY="14.0" prefHeight="48.0" prefWidth="542.0">
                     <children>
-                        <TextField fx:id="txtSearch" layoutX="65.0" layoutY="9.0" prefHeight="31.0" prefWidth="449.0" promptText="Search" />
+                        <TextField fx:id="txtSearch" layoutX="65.0" layoutY="9.0" onAction="#txtSearchOnAction" prefHeight="31.0" prefWidth="449.0" promptText="Search" />
                     </children>
                 </Pane>
                 <Pane layoutX="1002.0" layoutY="106.0" prefHeight="620.0" prefWidth="483.0" style="-fx-background-color: #cad2c5;">
@@ -103,6 +103,7 @@
                   <JFXComboBox fx:id="cmbStatus" layoutX="27.0" layoutY="401.0" prefHeight="31.0" prefWidth="383.0" promptText="Payment Status" />
                     </children>
                 </Pane>
+            <JFXButton layoutX="1201.0" layoutY="767.0" onAction="#btnUpdateOnAction" text="Update" />
             </children>
         </Pane>
     </center>

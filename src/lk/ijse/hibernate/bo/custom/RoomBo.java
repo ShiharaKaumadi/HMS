@@ -19,4 +19,13 @@ public interface RoomBo extends SuperBo{
     boolean updateRoom(RoomDTO roomDto) throws SQLException, ClassNotFoundException;
 
     boolean deleteRoom(String id) throws SQLException, ClassNotFoundException;
+
+    int countAcFoodAvailableRooms() throws SQLException, ClassNotFoundException;
+
+    int countAcAvailableRooms() throws SQLException, ClassNotFoundException;
+
+    int countNonAcFoodAvailableRooms() throws SQLException, ClassNotFoundException;
+
+    int countNonAcAvailableRooms() throws SQLException, ClassNotFoundException;
+
 }

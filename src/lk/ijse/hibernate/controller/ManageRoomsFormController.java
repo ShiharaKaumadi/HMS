@@ -182,7 +182,7 @@ public class ManageRoomsFormController {
         int qty = Integer.parseInt(txtQty.getText());
 
         boolean isRoomTypeMatched =roomTypeId.matches("^RM-\\d{4}$");
-        boolean isTypeMatched = type.matches("^NON-AC|non_ac|NON_AC/Food|non-ac/food|AC|AC/Food|ac|ac/food$");
+        boolean isTypeMatched = type.matches("^NON-AC|non-ac|NON_AC/Food|non-ac/food|AC|AC/Food|ac|ac/food$");
         boolean isKeyMoneyMatched = keyMoney.matches("^\\d{4}|\\d{5}$");
         boolean isQtyMatched = String.valueOf(qty).matches("^\\d{2}$");
 
@@ -330,4 +330,6 @@ public class ManageRoomsFormController {
             txtQty.setText(String.valueOf(roomDTO.getQty()));
         }
     }
+
+
 }

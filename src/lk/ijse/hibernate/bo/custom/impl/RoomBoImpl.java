@@ -53,5 +53,25 @@ public class RoomBoImpl implements RoomBo {
         return roomDaoImpl.delete(id);
     }
 
+    @Override
+    public int countAcFoodAvailableRooms() throws SQLException, ClassNotFoundException {
+        return roomDaoImpl.countAcFoodAvailableooms();
+    }
+
+    @Override
+    public int countAcAvailableRooms() throws SQLException, ClassNotFoundException {
+        return roomDaoImpl.countAcAvailableRooms();
+    }
+
+    @Override
+    public int countNonAcFoodAvailableRooms() throws SQLException, ClassNotFoundException {
+        return roomDaoImpl.countNonAcFoodAvailableRooms();
+    }
+
+    @Override
+    public int countNonAcAvailableRooms() throws SQLException, ClassNotFoundException {
+        return roomDaoImpl.countNonAcAvailableRooms();
+    }
+
 
 }
