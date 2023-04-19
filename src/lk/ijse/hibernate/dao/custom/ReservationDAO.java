@@ -7,4 +7,6 @@ import java.util.ArrayList;
 
 public interface ReservationDAO extends CrudDAO<Reservation, String> {
     ArrayList<Reservation> getPaymentDueSTudennts();
+
+    boolean isstudentReservedRoom(String studentId);
 }

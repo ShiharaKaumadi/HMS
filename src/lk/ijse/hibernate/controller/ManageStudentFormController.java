@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -47,10 +48,25 @@ public class ManageStudentFormController {
     public JFXDatePicker dtDob;
     public JFXTextField txtGender;
     StudentBo studentBoImpl = (StudentBo) BOFactory.getBoFactory().getBO(BOTypes.STUDENT);
+    private StudentDTO studentDTO;
 
     public void initialize() {
         setCellValueFactory();
         loadItemTableData();
+        loadNextStudentId();
+
+    }
+
+    private void loadNextStudentId() {
+        String stdId = null;
+        try {
+            stdId = studentBoImpl.getNextStudnetId();
+            txtStudentID.setText(stdId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -177,7 +193,7 @@ public class ManageStudentFormController {
             StudentDTO studentDTO = studentBoImpl.searchStudent(id);
             if (studentDTO != null) {
                 fillData(studentDTO);
-                txtSearch.setText("");
+
             } else {
                 Notifications notifications = Notifications.create().title(" Search student").text("student Not Found").hideAfter(Duration.seconds(3)).position(Pos.TOP_CENTER);
                 notifications.show();
@@ -207,7 +223,42 @@ public class ManageStudentFormController {
 
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
+        String id = txtStudentID.getText();
+        boolean isDeleted;
+        try {
+            isDeleted = studentBoImpl.deleteStudent(id);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Student");
+            alert.setContentText("Are you sure you want to delete details ?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.equals(null)) {
+                Navigation.navigate(Routes.STUDENT, brdPane);
+            } else if (result.get() == ButtonType.OK) {
+                if (isDeleted) {
+                    int selectedIndex = tblStudentData.getSelectionModel().getSelectedIndex();
+                    tblStudentData.getItems().remove(selectedIndex);
+                    Notifications notifications = Notifications.create().text("Student Details Deleted.").title("Delete ").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                    notifications.showInformation();
+                } else {
+                    Notifications notifications = Notifications.create().text("Student Details Not Found.").title("Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                    notifications.showError();
+                }
+            } else if (result.get() == ButtonType.CANCEL) {
+                Navigation.navigate(Routes.STUDENT, brdPane);
+            }
 
+
+        } catch (ClassNotFoundException e) {
+            Notifications notifications = Notifications.create().text("Driver Not Found.").title("ClassNotFound Exception").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+            notifications.showError();
+
+        } catch (SQLException e) {
+            Notifications notifications = Notifications.create().text("Student Not Identified").title("Warning").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+            notifications.showError();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) throws IOException {
@@ -242,6 +293,7 @@ public class ManageStudentFormController {
                                 } else if (result.get() == ButtonType.OK) {
                                         studentDTOS.add(studentDTO);
                                         tblStudentData.setItems(studentDTOS);
+
                                         Notifications notifications = Notifications.create().text("Student Updated Successfuly").title("Update Student").position(Pos.CENTER).hideAfter(Duration.seconds(3));
                                         notifications.showInformation();
                                     } else {
@@ -274,5 +326,27 @@ public class ManageStudentFormController {
             txtStudentID.setFocusColor(Paint.valueOf("Red"));
             txtStudentID.requestFocus();
         }
+    }
+   
+
+    public void tblDataOnMouseClickOnAction(MouseEvent mouseEvent) {
+        studentDTO = (StudentDTO) tblStudentData.getSelectionModel().getSelectedItem();
+        if (studentDTO != null) {
+            txtStudentID.setText(studentDTO.getStudentId());
+            txtName.setText(studentDTO.getName());
+            txtContactNo.setText(studentDTO.getContactNo());
+            dtDob.setValue(studentDTO.getDob());
+            txtGender.setText(String.valueOf(studentDTO.getGender()));
+            txtAddress.setText(studentDTO.getAddress());
+        }
+    }
+
+    public void btnClearOnAction(ActionEvent actionEvent) {
+        txtStudentID.setText("");
+        txtName.setText("");
+        txtContactNo.setText("");
+        dtDob.setValue(null);
+        txtGender.setText("");
+        txtAddress.setText("");
     }
 }

@@ -69,7 +69,7 @@
     <center>
         <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
             <children>
-                <TableView fx:id="tblRoomData" layoutX="35.0" layoutY="106.0" prefHeight="748.0" prefWidth="841.0">
+                <TableView fx:id="tblRoomData" layoutX="35.0" layoutY="106.0" onMouseClicked="#tblOnMouseClicked" prefHeight="748.0" prefWidth="841.0">
                     <columns>
                         <TableColumn fx:id="colRoomTypeId" prefWidth="136.0" text="Room Type ID" />
                         <TableColumn fx:id="colType" minWidth="0.0" prefWidth="230.0" text="Type" />
@@ -84,7 +84,11 @@
                 </Pane>
                 <Pane layoutX="1002.0" layoutY="106.0" prefHeight="620.0" prefWidth="483.0" style="-fx-background-color: #757070;">
                     <children>
-                  <Pane fx:id="pane" layoutX="-32.0" layoutY="-28.0" prefHeight="675.0" prefWidth="541.0" style="-fx-background-color: pink;" />
+                  <Pane fx:id="pane" layoutX="-32.0" layoutY="-28.0" prefHeight="675.0" prefWidth="541.0" style="-fx-background-color: pink;">
+                     <children>
+                              <JFXButton layoutX="202.0" layoutY="436.0" onAction="#btnUpdate" text="Update" />
+                        <JFXButton layoutX="371.0" layoutY="436.0" onAction="#btnClear" text="Clear" />
+                     </children></Pane>
                         <JFXTextField fx:id="txtRoomTypeId" layoutX="24.0" layoutY="73.0" prefHeight="31.0" prefWidth="388.0" promptText="Room Type ID" />
                         <JFXTextField fx:id="txtType" layoutX="24.0" layoutY="152.0" prefHeight="31.0" prefWidth="389.0" promptText="Type" />
                         <JFXTextField fx:id="txtKeyMoney" layoutX="27.0" layoutY="237.0" prefHeight="31.0" prefWidth="388.0" promptText="Key Money" />
@@ -95,7 +99,6 @@
                             </font>
                         </Label>
                         <JFXButton layoutX="24.0" layoutY="413.0" onAction="#btnAddOnAction" text="Add" />
-                        <JFXButton layoutX="227.0" layoutY="413.0" onAction="#btnUpdate" text="Update" />
                     </children>
                 </Pane>
             <JFXButton layoutX="423.0" layoutY="870.0" onAction="#btnDeleteOnAction" text="Delete" />

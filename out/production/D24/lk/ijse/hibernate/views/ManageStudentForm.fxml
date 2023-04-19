@@ -70,7 +70,7 @@
     <center>
         <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="tblStudentData" layoutX="35.0" layoutY="106.0" prefHeight="725.0" prefWidth="1135.0">
+            <TableView fx:id="tblStudentData" layoutX="35.0" layoutY="106.0" onMouseClicked="#tblDataOnMouseClickOnAction" prefHeight="725.0" prefWidth="1135.0">
               <columns>
                 <TableColumn fx:id="colStudentId" prefWidth="136.0" text="Student ID" />
                 <TableColumn fx:id="colName" minWidth="0.0" prefWidth="230.0" text="Name" />
@@ -99,7 +99,8 @@
                      </font>
                   </Label>
                   <JFXButton layoutX="31.0" layoutY="523.0" onAction="#btnAddOnAction" text="Add" />
-                  <JFXButton layoutX="222.0" layoutY="523.0" onAction="#btnUpdateOnAction" text="Update" />
+                  <JFXButton layoutX="124.0" layoutY="523.0" onAction="#btnUpdateOnAction" text="Update" />
+                  <JFXButton layoutX="241.0" layoutY="523.0" onAction="#btnClearOnAction" text="Clear" />
                </children>
             </Pane>
             <JFXButton layoutX="570.0" layoutY="852.0" onAction="#btnDeleteOnAction" text="Delete" />

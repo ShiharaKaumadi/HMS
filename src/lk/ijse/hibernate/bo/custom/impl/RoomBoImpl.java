@@ -48,5 +48,10 @@ public class RoomBoImpl implements RoomBo {
         return roomDaoImpl.update(new Room(roomDto.getRoomTypeId(),roomDto.getRoomType(),roomDto.getKeyMoney(),roomDto.getQty(),null));
     }
 
+    @Override
+    public boolean deleteRoom(String id) throws SQLException, ClassNotFoundException {
+        return roomDaoImpl.delete(id);
+    }
+
 
 }

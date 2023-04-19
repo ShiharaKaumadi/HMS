@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -47,8 +48,8 @@ public class ManageRoomsFormController {
     RoomBo roomBoImpl = (RoomBo) BOFactory.getBoFactory().getBO(BOTypes.ROOM);
 
     public void initialize(){
-        loadTableData();
         loadSetCellValueFactory();
+        loadTableData();
         laodAvaialableAcRooms();
         loadAvaiableACFoodRooms();
         loadAvailableNonACRooms();
@@ -186,36 +187,40 @@ public class ManageRoomsFormController {
         boolean isQtyMatched = String.valueOf(qty).matches("^\\d{2}$");
 
         RoomDTO roomDto = new RoomDTO(roomTypeId, type, keyMoney, qty);
-        ObservableList items = tblRoomData.getItems();
+        ObservableList<RoomDTO> items = tblRoomData.getItems();
 
         if (isRoomTypeMatched) {
             if (isTypeMatched) {
                 if (isKeyMoneyMatched) {
                     if (isQtyMatched) {
                         try{
-                            boolean isAdded = roomBoImpl.updateRoom(roomDto);
-                            System.out.println(isAdded);
+                            roomBoImpl.updateRoom(roomDto);
+
+                            System.out.println(" I am in controller");
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("Add ROOM");
-                            alert.setContentText("Are you sure you want to add Room ?");
+                            alert.setTitle("Update Room");
+                            alert.setContentText("Are you sure you want to update room " + txtRoomTypeId.getText() + " ?");
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.equals(null)) {
-                                Navigation.navigate(Routes.ROOMS,brdPane);
+                                Navigation.navigate(Routes.ROOMS, brdPane);
                             } else if (result.get() == ButtonType.OK) {
-                                if (isAdded) {
-                                    items.add(roomDto);
-                                    tblRoomData.setItems(items);
-                                    Notifications notifications = Notifications.create().text("Student Added Successfuly").title("Add Student").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                                items.add(roomDto);
+                                tblRoomData.setItems(items);
+
+                                    Notifications notifications = Notifications.create().text("Room Details Updated Successfuly").title("Add Student").position(Pos.CENTER).hideAfter(Duration.seconds(3));
                                     notifications.showInformation();
                                 } else {
-                                    Notifications notifications = Notifications.create().text("Student Not Added.").title("Saving Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                                    Notifications notifications = Notifications.create().text("Room Not Updated.").title("Saving Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
                                     notifications.showInformation();
 
                                 }
-                            }
-
-
-                        } catch (Exception e) {
+                            } catch (SQLException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }catch (Exception e) {
                             throw new RuntimeException(e);
                         }
                     } else {
@@ -271,5 +276,58 @@ public class ManageRoomsFormController {
     }
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
+        String id = txtRoomTypeId.getText();
+        boolean isDeleted;
+        try {
+            isDeleted = roomBoImpl.deleteRoom(id);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Room");
+            alert.setContentText("Are you sure you want to delete details ?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.equals(null)) {
+                Navigation.navigate(Routes.ROOMS, brdPane);
+            } else if (result.get() == ButtonType.OK) {
+                if (isDeleted) {
+                    int selectedIndex = tblRoomData.getSelectionModel().getSelectedIndex();
+                    tblRoomData.getItems().remove(selectedIndex);
+                    Notifications notifications = Notifications.create().text("Room Details Deleted.").title("Delete ").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                    notifications.showInformation();
+                } else {
+                    Notifications notifications = Notifications.create().text("Room Details Not Found.").title("Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                    notifications.showError();
+                }
+            } else if (result.get() == ButtonType.CANCEL) {
+                Navigation.navigate(Routes.ROOMS, brdPane);
+            }
+
+
+        } catch (ClassNotFoundException e) {
+            Notifications notifications = Notifications.create().text("Driver Not Found.").title("ClassNotFound Exception").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+            notifications.showError();
+
+        } catch (SQLException e) {
+            Notifications notifications = Notifications.create().text("Room Not Identified").title("Warning").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+            notifications.showError();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void btnClear(ActionEvent actionEvent) {
+        txtRoomTypeId.setText("");
+        txtType.setText("");
+        txtKeyMoney.setText("");
+        txtQty.setText("");
+    }
+
+    public void tblOnMouseClicked(MouseEvent mouseEvent) {
+        RoomDTO roomDTO = (RoomDTO) tblRoomData.getSelectionModel().getSelectedItem();
+        if (roomDTO != null) {
+            txtRoomTypeId.setText(roomDTO.getRoomTypeId());
+            txtType.setText(roomDTO.getRoomType());
+            txtKeyMoney.setText(roomDTO.getKeyMoney());
+            txtQty.setText(String.valueOf(roomDTO.getQty()));
+        }
     }
 }

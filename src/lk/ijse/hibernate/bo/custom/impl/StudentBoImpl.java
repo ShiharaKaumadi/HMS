@@ -22,7 +22,12 @@ public class StudentBoImpl implements StudentBo {
 
     @Override
     public boolean addStudent(StudentDTO studentDTO) throws SQLException, ClassNotFoundException {
-        return studentDaoImpl.add(new Student(studentDTO.getStudentId(),studentDTO.getName(),studentDTO.getAddress(),studentDTO.getContactNo(),studentDTO.getDob(),studentDTO.getGender()));
+
+
+           return studentDaoImpl.add(new Student(studentDTO.getStudentId(), studentDTO.getName(), studentDTO.getAddress(),
+                    studentDTO.getContactNo(), studentDTO.getDob(), studentDTO.getGender()));
+
+
     }
 
     @Override
@@ -69,5 +74,10 @@ public class StudentBoImpl implements StudentBo {
     @Override
     public ArrayList<StudentDTO> getPaymentDueStudents() throws SQLException, ClassNotFoundException {
         return null;
+    }
+
+    @Override
+    public String getNextStudnetId() throws SQLException, ClassNotFoundException {
+        return studentDaoImpl.getNextStudnetId();
     }
 }

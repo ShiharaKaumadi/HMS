@@ -32,19 +32,15 @@ public class StudentDaoImpl implements StudentDAO {
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
-        //transaction.begin();
-
-        try{
-            session.delete(id,Student.class);
-            System.out.println(id);
+        Session session=FactoryConfiguration.getInstance().getSession();
+        Transaction transaction=session.beginTransaction();
+        try {
+            Student std=session.load(Student.class,id);
+            session.delete(std);
             transaction.commit();
-            System.out.println("commited");
             return true;
         }catch (Exception e){
-            System.out.println(e);
-            System.out.println("eshani");
+            e.printStackTrace();
             transaction.rollback();
             return false;
         }
@@ -180,5 +176,60 @@ public class StudentDaoImpl implements StudentDAO {
             transaction.rollback();
             return null;
         }
+    }
+
+    @Override
+    public boolean findStudentByPk(String studentId) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        //transaction.begin();
+
+        try{
+            session.find(Student.class,studentId);
+            System.out.println(studentId);
+            transaction.commit();
+            System.out.println("commited");
+            return true;
+        }catch (Exception e){
+            System.out.println(e);
+            System.out.println("eshani");
+            transaction.rollback();
+            return false;
+        }
+    }
+
+    @Override
+    public String getNextStudnetId() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        List<Student> students = new ArrayList<>();
+
+        try{
+            Query query = session.createQuery("SELECT id FROM  Student ORDER BY id DESC  ");
+            List <String> list= query.list();
+            System.out.println(list);
+            transaction.commit();
+
+            return getNextStudnetId(list.get(0));
+        }catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+
+        }
+        return getNextStudnetId(null);
+    }
+    private  String getNextStudnetId(String currentStdId) {
+        if (currentStdId !=null){
+            String[] ids = currentStdId.split(("S00"));
+            int id = Integer.parseInt(ids[1]);
+            System.out.println(id);
+
+            id += 1;
+
+
+            return ("S00")+id;
+        }
+        return ("S00")+1;
+
     }
 }

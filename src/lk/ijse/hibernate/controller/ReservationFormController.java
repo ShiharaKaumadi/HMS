@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class ReservationFormController {
     public BorderPane brdPane;
@@ -69,6 +70,7 @@ public class ReservationFormController {
         loadRoomTypeIDsAvailable();
         loadTableData();
         loadSetCellValueFactory();
+
 
         ObservableList<String> status = FXCollections.observableArrayList("Paid","Pending");
         cmbStatus.setItems(status);
@@ -152,14 +154,7 @@ public class ReservationFormController {
         Navigation.navigate(Routes.RESERVATION,brdPane);
     }
 
-    public void btnResrvedOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-//        Reservation reservation = new Reservation("000", dtDate.getValue(), "neee", new Student("S001"), new Room("RM-1234"));
-//        Session session = FactoryConfiguration.getInstance().getSession();
-//        Transaction transaction = session.beginTransaction();
-//        session.save(reservation);
-//        transaction.commit();
-//        session.close();
-
+    public void btnResrvedOnAction(ActionEvent actionEvent) {
         String resId = txtResID.getText();
         LocalDate date = dtDate.getValue();
         String studentID = (String) cmbStudentID.getSelectionModel().getSelectedItem();
@@ -167,8 +162,8 @@ public class ReservationFormController {
         String roomTypeID = cmbRoomTypeID.getSelectionModel().getSelectedItem().toString();
         System.out.println(roomTypeID);
         String status = cmbStatus.getSelectionModel().getSelectedItem().toString();
-
         boolean isResIDMatched = resId.matches("^RS-\\d{3}$");
+
         boolean isStatusMatched = status.matches("^Paid|Pending$");
 
         ReservationDTO resrevationDTO = new ReservationDTO(resId, date,studentID,roomTypeID,status);
@@ -176,31 +171,37 @@ public class ReservationFormController {
 
         if (isResIDMatched) {
                             try {
-                                boolean isAdded = reservationBoImpl.addReservation(resrevationDTO);
-                                System.out.println(isAdded);
-                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                alert.setTitle("Add Reservation");
-                                alert.setContentText("Are you sure you want to add Reservation ?");
-                                Optional<ButtonType> result = alert.showAndWait();
-                                if (result.equals(null)) {
-                                    Navigation.navigate(Routes.RESERVATION, brdPane);
-                                } else if (result.get() == ButtonType.OK) {
-                                    if (isAdded) {
-                                        reservationDTOS.add(resrevationDTO);
-                                        tblReservationData.setItems(reservationDTOS);
-                                        Notifications notifications = Notifications.create().text("Reservation Added Successfuly").title("Add Reservation").position(Pos.CENTER).hideAfter(Duration.seconds(3));
-                                        notifications.showInformation();
-                                    } else {
-                                        Notifications notifications = Notifications.create().text("Reservation Not Added.").title("Saving Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
-                                        notifications.showInformation();
+                                    boolean isAdded = reservationBoImpl.addReservation(resrevationDTO);
+                                    System.out.println(isAdded);
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                    alert.setTitle("Add Reservation");
+                                    alert.setContentText("Are you sure you want to add Reservation ?");
+                                    Optional<ButtonType> result = alert.showAndWait();
+                                    if (result.equals(null)) {
+                                        Navigation.navigate(Routes.RESERVATION, brdPane);
+                                    } else if (result.get() == ButtonType.OK) {
+                                        if (isAdded) {
+                                            reservationDTOS.add(resrevationDTO);
+                                            tblReservationData.setItems(reservationDTOS);
+                                            Notifications notifications = Notifications.create().text("Reservation Added Successfuly").title("Add Reservation").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                                            notifications.showInformation();
+                                        } else {
+                                            Notifications notifications = Notifications.create().text("Reservation Not Added.").title("Saving Error").position(Pos.CENTER).hideAfter(Duration.seconds(3));
+                                            notifications.showInformation();
 
+                                        }
+                                    } else if (result.get() == ButtonType.CANCEL) {
+                                        Navigation.navigate(Routes.RESERVATION, brdPane);
                                     }
-                                } else if (result.get() == ButtonType.CANCEL) {
-                                    Navigation.navigate(Routes.RESERVATION, brdPane);
+
+                                } catch(SQLException e){
+                                    e.printStackTrace();
+                                } catch(IOException e){
+                                    e.printStackTrace();
+                                } catch(ClassNotFoundException e){
+                                    e.printStackTrace();
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+
         } else {
             txtResID.setFocusColor(Paint.valueOf("Red"));
             txtResID.requestFocus();
@@ -209,7 +210,13 @@ public class ReservationFormController {
 
     }
 
+
+
     public void btnCancelOnAction(ActionEvent actionEvent) {
+
+    }
+
+    public void cmbSelectStudentIdOnAction(ActionEvent actionEvent) {
 
     }
 }

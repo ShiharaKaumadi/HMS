@@ -26,4 +26,6 @@ public interface StudentBo extends SuperBo{
     long countMaleStudent()throws SQLException, ClassNotFoundException ;
 
     ArrayList<StudentDTO> getPaymentDueStudents() throws SQLException, ClassNotFoundException ;
+
+    String getNextStudnetId() throws SQLException, ClassNotFoundException ;
 }

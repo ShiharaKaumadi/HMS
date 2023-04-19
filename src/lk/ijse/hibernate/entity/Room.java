@@ -36,6 +36,13 @@ public class Room {
         this.list = list;
     }
 
+    public Room(String roomTypeId, String type, String keyMoney, int qty) {
+        this.roomTypeId = roomTypeId;
+        this.type = type;
+        this.keyMoney = keyMoney;
+        this.qty = qty;
+    }
+
     public String getRoomTypeId() {
         return roomTypeId;
     }

@@ -22,7 +22,7 @@ public class AppInitializer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        URL resource = this.getClass().getResource("/lk/ijse/hibernate/views/LoginForm.fxml");
+        URL resource = this.getClass().getResource("/lk/ijse/hibernate/views/DashboardForm.fxml");
         Parent window = FXMLLoader.load(resource);
         Scene scene = new Scene(window);
         primaryStage.setScene(scene);

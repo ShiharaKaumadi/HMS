@@ -1,8 +1,11 @@
 package lk.ijse.hibernate.dao.custom.impl;
 
 import lk.ijse.hibernate.dao.custom.RoomsDAO;
+import lk.ijse.hibernate.dao.util.DAOFactory;
+import lk.ijse.hibernate.dao.util.DAOTypes;
 import lk.ijse.hibernate.entity.Reservation;
 import lk.ijse.hibernate.entity.Room;
+import lk.ijse.hibernate.entity.Student;
 import lk.ijse.hibernate.util.FactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -13,16 +16,20 @@ import java.util.List;
 
 public class RoomsDaoImpl implements RoomsDAO {
 
+
     @Override
     public boolean add(Room room) throws SQLException, ClassNotFoundException {
+
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
+
+
 
         try{
             session.saveOrUpdate(room);
             transaction.commit();
+                return true;
 
-            return true;
         }catch (Exception e){
             System.out.println(e);;
             transaction.rollback();
@@ -32,8 +39,19 @@ public class RoomsDaoImpl implements RoomsDAO {
 
     @Override
 
-    public boolean delete(String s) throws SQLException, ClassNotFoundException {
-        return false;
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        Session session=FactoryConfiguration.getInstance().getSession();
+        Transaction transaction=session.beginTransaction();
+        try {
+            Room room=session.load(Room.class,id);
+            session.delete(room);
+            transaction.commit();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            transaction.rollback();
+            return false;
+        }
     }
 
     @Override
@@ -45,7 +63,6 @@ public class RoomsDaoImpl implements RoomsDAO {
         try{
             session.update(room);
             transaction.commit();
-
             return true;
         }catch (Exception e){
             System.out.println(e);;
@@ -63,9 +80,8 @@ public class RoomsDaoImpl implements RoomsDAO {
             Room room = session.find(Room.class, id);
 
             transaction.commit();
-
-            return new Room(room.getRoomTypeId(),room.getType(),room.getKeyMoney(),room.getQty(),room.getList());
-
+            System.out.println(room.getQty());
+            return new Room(room.getRoomTypeId(),room.getType(),room.getKeyMoney(),room.getQty());
         }catch (Exception e){
             System.out.println(e);
             transaction.rollback();

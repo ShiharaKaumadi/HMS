@@ -18,6 +18,7 @@ import lk.ijse.hibernate.util.Routes;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DashboardFormController {
@@ -35,6 +36,7 @@ public class DashboardFormController {
     public AnchorPane anchrPane;
     public GridPane grid;
     public AnchorPane anchorPane;
+    public Label lblTime;
     ArrayList <ReservationDTO> reservationDTOArrayList = new ArrayList<>();
 
     StudentBo studentBOImpl = (StudentBo) BOFactory.getBoFactory().getBO(BOTypes.STUDENT);
@@ -45,6 +47,7 @@ public class DashboardFormController {
         loadTotalFemaleStudentCount();
         loadTotalFemaleStudentCount();
         loadTotalMaleStudentCount();
+        loadTime();
         ArrayList<ReservationDTO> paymentDueStudents = reservationBoImpl.getPaymentDueStudents();
         paymentDueStudents.addAll(getData());
         System.out.println(paymentDueStudents.size());
@@ -79,6 +82,16 @@ public class DashboardFormController {
             e.printStackTrace();
         }
 
+    }
+
+    private void loadTime() {
+        LocalTime time = LocalTime.now();
+
+        if (time.isAfter(LocalTime.NOON)){
+            lblTime.setText(time.getHour()+"."+time.getMinute()+" PM");
+        }else{
+            lblTime.setText(time.getHour()+"."+time.getMinute()+" AM");
+        }
     }
 
     private ArrayList<ReservationDTO> getData() throws SQLException, ClassNotFoundException {

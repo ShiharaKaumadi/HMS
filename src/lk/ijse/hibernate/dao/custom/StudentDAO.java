@@ -19,4 +19,8 @@ public interface StudentDAO extends CrudDAO<Student,String> {
     void isStudentExist();
 
     ArrayList<String> loadStudentIds();
+
+    boolean findStudentByPk(String studentId);
+
+    String getNextStudnetId();
 }

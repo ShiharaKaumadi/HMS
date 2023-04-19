@@ -1,5 +1,7 @@
 package lk.ijse.hibernate.bo.custom.impl;
 
+import javafx.geometry.Pos;
+import javafx.util.Duration;
 import lk.ijse.hibernate.bo.custom.ReservationBo;
 import lk.ijse.hibernate.dao.custom.ReservationDAO;
 import lk.ijse.hibernate.dao.custom.RoomsDAO;
@@ -7,14 +9,15 @@ import lk.ijse.hibernate.dao.custom.StudentDAO;
 import lk.ijse.hibernate.dao.util.DAOFactory;
 import lk.ijse.hibernate.dao.util.DAOTypes;
 import lk.ijse.hibernate.dto.ReservationDTO;
-import lk.ijse.hibernate.dto.RoomDTO;
 import lk.ijse.hibernate.entity.Reservation;
 import lk.ijse.hibernate.entity.Room;
 import lk.ijse.hibernate.entity.Student;
+import org.controlsfx.control.Notifications;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ReservationBoImpl implements ReservationBo {
     private final ReservationDAO reservationDaoImpl = (ReservationDAO) DAOFactory.getDaoFactory().getDAO(DAOTypes.RESERVATION);
@@ -27,8 +30,8 @@ public class ReservationBoImpl implements ReservationBo {
         System.out.println(resrevationDTO.getStudentId());
         Reservation reservation = new Reservation(resrevationDTO.getResId(), resrevationDTO.getDate(), resrevationDTO.getStatus(), new Student(resrevationDTO.getStudentId()),new Room(resrevationDTO.getRoomTypeId()));
 
-        System.out.println("ToString"+reservation);
-        return reservationDaoImpl.add(reservation);
+            return reservationDaoImpl.add(reservation);
+
     }
 
     @Override
@@ -63,6 +66,11 @@ public class ReservationBoImpl implements ReservationBo {
             arrayList.add(new ReservationDTO(room.getResId(),room.getDate(),room.getStudentId().getId(),room.getRoomTypeId().getRoomTypeId(),room.getStatus()));
         }
         return arrayList;
+    }
+
+    @Override
+    public boolean stdIdExist(String studentID) throws SQLException, ClassNotFoundException {
+        return false;
     }
 
 
